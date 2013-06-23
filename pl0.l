@@ -42,12 +42,23 @@ void debug_print(char * s);
 "."			{ debug_print("DOT"); return DOT; }
 [a-zA-Z_]+[0-9a-zA-Z_]* { debug_print("IDENTIFIER"); return IDENTIFIER; }
 [0-9]+(.[0-9]+)?	{ debug_print("NUMBER"); return NUMBER; }
-((\\r?\\n))+|(\\t)+|(" ")+|""		{ debug_print("WHT"); return WHT; }
+[ \t]+		{ ; }
+\n			{ line++; }
 .			{ debug_print("ERROR"); return ERROR; }
 %%
 
 void debug_print(char * s) {
 	if(DEBUG)
-		printf("%s\n", s);
+		printf("%s, Z.:%i \n", s, line);
 }
+
+int yywrap() {
+	return 1;
+}
+
+/*
+int main() {
+	while(yylex());
+}
+*/
 
