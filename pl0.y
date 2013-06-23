@@ -1,12 +1,18 @@
 %{
 #include <stdio.h>
+#include "symbol_table.h"
+
+SymbolTable symtab = new SymbolTable();
 %}
+
 %token K_CONST K_VAR K_PROCEDURE K_CALL K_BEGIN K_END K_IF K_THEN K_WHILE K_DO K_ODD COMMA SEMICOLON EX_MARK QUE_MARK BEQ SEQ ASSIGN EQ PLUS MINUS MUL DIV LT GT HASH DOT L_BRACE R_BRACE CONST ERROR IDENTIFIER NUMBER;
 
 %%
 program:				block DOT
 						;
-block:					constdecl vardecl procdecl statement
+block:					{ symtab.level_up(); }
+						constdecl vardecl procdecl statement
+						{ symtab.level_down(); }
 						;
 constdecl:				K_CONST constassignmentlist SEMICOLON
 						|
