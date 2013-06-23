@@ -1,43 +1,53 @@
 %{
-enum token { K_CONST=1, K_VAR, K_PROCEDURE, K_CALL, K_BEGIN, K_END, K_IF, K_THEN, K_WHILE, K_DO, K_ODD,
-	COMMA, SEMICOLON, EX_MARK, QUE_MARK, BEQ, SEQ, ASSIGN, EQ, PLUS, MINUS, MUL, DIV, LT, GT, HASH, DOT, L_BRACE, R_BRACE,
-	IDENTIFIER, NUMBER,
-	ERROR, WHT};
-%}
-%%
-const		return K_CONST;
-var			return K_VAR;
-procedure	return K_PROCEDURE;
-call		return K_CALL;
-begin		return K_BEGIN;
-end			return K_END;
-if			return K_IF;
-then		return K_THEN;
-while		return K_WHILE;
-do			return K_DO;
-odd			return K_ODD;
+#include <stdio.h>
+#include "y.tab.h"
 
-,			return COMMA;
-;			return SEMICOLON;
-!			return EX_MARK;
-\?			return QUE_MARK;
-\>=			return BEQ;
-\<=			return SEQ;
-:=			return ASSIGN;
-=			return EQ;
-\+			return PLUS;
-\-			return MINUS;
-\*			return MUL;
-\/			return DIV;
-\<			return LT;
-\>			return GT;
-#			return HASH;
-\(			return L_BRACE;
-\)			return R_BRACE;
-\.			return DOT;
-[a-zA-Z_]+[0-9a-zA-Z_]* return IDENTIFIER;
-[0-9]+(.[0-9]+)?	return NUMBER;
-((\\r?\\n))+|(\\t)+|(" ")+|""		return WHT;
-.			return ERROR;
+#define DEBUG 1
+
+int line = 0;
+
+void debug_print(char * s);
+%}
+
 %%
+CONST		{ debug_print("CONST"); return K_CONST; }
+VAR			{ debug_print("VAR"); return K_VAR; }
+PROCEDURE	{ debug_print("PROCEDURE"); return K_PROCEDURE; }
+CALL		{ debug_print("CALL"); return K_CALL; }
+BEGIN		{ debug_print("BEGIN"); return K_BEGIN; }
+END			{ debug_print("END"); return K_END; }
+IF			{ debug_print("IF"); return K_IF; }
+THEN		{ debug_print("THEN"); return K_THEN; }
+WHILE		{ debug_print("WHILE"); return K_WHILE; }
+DO			{ debug_print("DO"); return K_DO; }
+ODD			{ debug_print("ODD"); return K_ODD; }
+
+,			{ debug_print("COMMA"); return COMMA; }
+;			{ debug_print("SEMMICOLON"); return SEMICOLON; }
+!			{ debug_print("EX_MARK"); return EX_MARK; }
+\?			{ debug_print("QUE_MARK"); return QUE_MARK; }
+\>=			{ debug_print("BEQ"); return BEQ; }
+\<=			{ debug_print("SEQ"); return SEQ; }
+:=			{ debug_print("ASSING"); return ASSIGN; }
+=			{ debug_print("EQ"); return EQ; }
+\+			{ debug_print("PLUS"); return PLUS; }
+\-			{ debug_print("MINUS"); return MINUS; }
+\*			{ debug_print("MUL"); return MUL; }
+\/			{ debug_print("DIV"); return DIV; }
+\<			{ debug_print("LT"); return LT; }
+\>			{ debug_print("GT"); return GT; }
+#			{ debug_print("HASH"); return HASH; }
+\(			{ debug_print("L_BRACE"); return L_BRACE; }
+\)			{ debug_print("R_BRACE"); return R_BRACE; }
+\.			{ debug_print("DOT"); return DOT; }
+[a-zA-Z_]+[0-9a-zA-Z_]* { debug_print("IDENTIFIER"); return IDENTIFIER; }
+[0-9]+(.[0-9]+)?	{ debug_print("NUMBER"); return NUMBER; }
+((\\r?\\n))+|(\\t)+|(" ")+|""		{ debug_print("WHT"); return WHT; }
+.			{ debug_print("ERROR"); return ERROR; }
+%%
+
+void debug_print(char * s) {
+	if(DEBUG)
+		printf("%s\n", s);
+}
 
