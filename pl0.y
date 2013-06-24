@@ -43,7 +43,7 @@ identlist:				IDENTIFIER { symtab.insert($1, _VAR); }
 procdecl:				procdecl K_PROCEDURE IDENTIFIER { symtab.insert($3, _PROC); } SEMICOLON block SEMICOLON
 						|
 						;
-statement:				IDENTIFIER ASSIGN expression
+statement:				IDENTIFIER ASSIGN expression { int level, number, result ; result = symtab.lookup($1, _VAR, level, number); if(result != IDENTIFIER_FOUND) error(result); }
 						| K_CALL IDENTIFIER { int level, number, result ; result = symtab.lookup($2, _PROC, level, number); if(result != IDENTIFIER_FOUND) error(result); }
 						| EX_MARK expression
 						| QUE_MARK IDENTIFIER { int level, number, result ; result = symtab.lookup($2, _VAR, level, number); if(result != IDENTIFIER_FOUND) error(result); }
