@@ -3,10 +3,13 @@
 class SymbolTableEntry
 {
 	public:
-		SymbolTableEntry(int type);
+		SymbolTableEntry(int type, int number);
+		int getType();
+		int getNumber();
 
 	private:
 		int type;
+		int number;
 };
 
 #endif
