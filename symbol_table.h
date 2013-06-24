@@ -15,10 +15,12 @@ class SymbolTable
 		void level_down();
 		void insert(string key, int type);
 		void lookup();
+		void print();
 
 	private:
 		int level;
 		vector< map<string, SymbolTableEntry> > symbol_table;
+		typedef map<string, SymbolTableEntry>::iterator map_iter;
 };
 
 #endif
