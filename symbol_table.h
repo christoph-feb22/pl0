@@ -5,6 +5,10 @@
 #define _CONST 2
 #define _PROC 3
 
+#define IDENTIFIER_NOT_FOUND 1
+#define IDENTIFIER_WRONG_TYPE 2
+#define IDENTIFIER_FOUND 3
+
 #include "symbol_table_entry.h"
 #include <vector>
 #include <map>
