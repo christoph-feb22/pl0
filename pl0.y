@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <cstdlib>
 #include "symbol_table.h"
+#include "global.h"
 
 extern "C"
 {
@@ -11,6 +12,7 @@ extern "C"
 	int yyerror(char * s) { printf(" %s\n", s); exit(1); }
 }
 
+void error(int);
 SymbolTable symtab;
 %}
 
@@ -29,8 +31,8 @@ block:					{ symtab.level_up(); }
 constdecl:				K_CONST constassignmentlist SEMICOLON
 						|
 						;
-constassignmentlist:	IDENTIFIER EQ NUMBER { symtab.insert($1, _CONST); }
-						| constassignmentlist COMMA IDENTIFIER EQ NUMBER { symtab.insert($3, _CONST); }
+constassignmentlist:	IDENTIFIER { symtab.insert($1, _CONST); } EQ NUMBER
+						| constassignmentlist COMMA IDENTIFIER { symtab.insert($3, _CONST); } EQ NUMBER
 						;
 vardecl:				K_VAR identlist SEMICOLON
 						|
@@ -38,13 +40,13 @@ vardecl:				K_VAR identlist SEMICOLON
 identlist:				IDENTIFIER { symtab.insert($1, _VAR); }
 						| identlist COMMA IDENTIFIER { symtab.insert($3, _VAR); }
 						;
-procdecl:				procdecl K_PROCEDURE IDENTIFIER SEMICOLON block SEMICOLON { symtab.insert($3, _PROC); }
+procdecl:				procdecl K_PROCEDURE IDENTIFIER { symtab.insert($3, _PROC); } SEMICOLON block SEMICOLON
 						|
 						;
 statement:				IDENTIFIER ASSIGN expression
-						| K_CALL IDENTIFIER
+						| K_CALL IDENTIFIER { int level, number, result ; result = symtab.lookup($2, _PROC, level, number); if(result != IDENTIFIER_FOUND) error(result); }
 						| EX_MARK expression
-						| QUE_MARK IDENTIFIER
+						| QUE_MARK IDENTIFIER { int level, number, result ; result = symtab.lookup($2, _VAR, level, number); if(result != IDENTIFIER_FOUND) error(result); }
 						| K_BEGIN statementlist K_END
 						| K_IF condition K_THEN statement
 						| K_WHILE condition K_DO statement
@@ -76,16 +78,28 @@ term:					factor
 multipliyingoperator:	MUL
 						| DIV
 						;
-factor:					IDENTIFIER
+factor:					IDENTIFIER { int level, number, result ; result = symtab.lookup($1, _VAR, level, number); if(result != IDENTIFIER_FOUND) error(result); }
 						| NUMBER
 						| L_BRACE expression R_BRACE
 						;
 %%
-/*
-int yyerror(char * s) {
-	printf("%s\n", s);
-	return 0;
-}*/
+
+void error(int error_type) {
+	char error_msg[255];
+	switch(error_type) {
+		case IDENTIFIER_NOT_FOUND:
+			sprintf(error_msg, "Line %d: Identifier not found.", line);
+			break;
+		case IDENTIFIER_WRONG_TYPE:
+			sprintf(error_msg, "Line %d: Identifier has wrong type", line);
+			break;
+		default:
+			sprintf(error_msg, "Line %d: Unknown error.", line);
+			break;		
+	}
+	symtab.print();
+	yyerror(error_msg);
+}
 
 int main() {
 	yyparse();
