@@ -1,5 +1,5 @@
 compiler: yacc c_lex
-	g++ lex.o yacc.cc -o compiler
+	g++ symbol_table.cpp symbol_table_entry.cpp lex.o yacc.cc -o compiler
 
 c_lex: lex
 	gcc -c lex.yy.c -o lex.o
