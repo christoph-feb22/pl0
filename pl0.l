@@ -1,10 +1,11 @@
 %{
 #include <stdio.h>
+#include "global.h"
 #include "yacc.hh"
 
 #define DEBUG 0
 
-int line = 0;
+line = 1;
 
 void debug_print(char * s);
 %}
