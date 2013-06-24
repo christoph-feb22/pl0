@@ -40,7 +40,7 @@ void debug_print(char * s);
 "("			{ debug_print("L_BRACE"); return L_BRACE; }
 ")"			{ debug_print("R_BRACE"); return R_BRACE; }
 "."			{ debug_print("DOT"); return DOT; }
-[a-zA-Z_]+[0-9a-zA-Z_]* { debug_print("IDENTIFIER"); return IDENTIFIER; }
+[a-zA-Z_]+[0-9a-zA-Z_]* { debug_print("IDENTIFIER"); strcpy(yylval.string, yytext); return IDENTIFIER; }
 [0-9]+(.[0-9]+)?	{ debug_print("NUMBER"); return NUMBER; }
 [ \t]+		{ ; }
 \n			{ line++; }
