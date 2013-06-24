@@ -1,11 +1,24 @@
 %{
 #include <stdio.h>
+#include <cstdlib>
 #include "symbol_table.h"
 
-SymbolTable symtab = new SymbolTable();
+extern "C"
+{
+	int yyparse(void);
+	int yylex(void);  
+	int yywrap() { return 1; }
+	int yyerror(char * s) { printf(" %s\n", s); exit(1); }
+	
+}
+
+SymbolTable symtab;
 %}
 
-%token K_CONST K_VAR K_PROCEDURE K_CALL K_BEGIN K_END K_IF K_THEN K_WHILE K_DO K_ODD COMMA SEMICOLON EX_MARK QUE_MARK BEQ SEQ ASSIGN EQ PLUS MINUS MUL DIV LT GT HASH DOT L_BRACE R_BRACE CONST ERROR IDENTIFIER NUMBER;
+%token K_CONST K_VAR K_PROCEDURE K_CALL K_BEGIN K_END K_IF K_THEN K_WHILE K_DO K_ODD COMMA SEMICOLON EX_MARK QUE_MARK BEQ SEQ ASSIGN EQ PLUS MINUS MUL DIV LT GT HASH DOT L_BRACE R_BRACE CONST ERROR NUMBER;
+
+%union { char string[255]; }
+%token<string> IDENTIFIER
 
 %%
 program:				block DOT
@@ -69,21 +82,12 @@ factor:					IDENTIFIER
 						| L_BRACE expression R_BRACE
 						;
 %%
+/*
 int yyerror(char * s) {
 	printf("%s\n", s);
 	return 0;
-}
+}*/
 
 int main() {
-	int input;
-
-
-	if(yyparse() == 0) {
-		printf("Syntax OK!\n");
-		return 0;
-	}
-	else {
-		printf("Syntax schlecht!\n");
-		return 1;
-	}
+	yyparse();
 }

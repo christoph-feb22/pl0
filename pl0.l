@@ -1,6 +1,6 @@
 %{
 #include <stdio.h>
-#include "y.tab.h"
+#include "yacc.hh"
 
 #define DEBUG 1
 
@@ -52,10 +52,11 @@ void debug_print(char * s) {
 		printf("%s, Z.:%i \n", s, line);
 }
 
+/*
 int yywrap() {
 	return 1;
 }
-
+*/
 /*
 int main() {
 	while(yylex());
