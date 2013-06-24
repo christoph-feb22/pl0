@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "yacc.hh"
 
-#define DEBUG 1
+#define DEBUG 0
 
 int line = 0;
 
