@@ -1,4 +1,6 @@
-SymbolTableEntry::SymbolTableEntry(int type)
+#include "symbol_table_entry.h"
+
+SymbolTableEntry::SymbolTableEntry(int t)
 {
-	this.type = type;
+	type = t;
 }

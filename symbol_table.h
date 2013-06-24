@@ -1,3 +1,8 @@
+#ifndef SYMBOL_TABLE_H
+#define SYMBOL_TABLE_H
+
+#include "symbol_table_entry.h"
+#include <vector>
 #include <map>
 #include <string>
 	using namespace std;
@@ -5,12 +10,15 @@
 class SymbolTable
 {
 	public:
+		SymbolTable();
 		void level_up();
 		void level_down();
-		void insert(string key);
+		void insert(string key, int type);
 		void lookup();
 
 	private:
 		int level;
-		map<string, int> symbol_table[];
-}
+		vector< map<string, SymbolTableEntry> > symbol_table;
+};
+
+#endif
