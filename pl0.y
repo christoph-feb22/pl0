@@ -9,7 +9,6 @@ extern "C"
 	int yylex(void);  
 	int yywrap() { return 1; }
 	int yyerror(char * s) { printf(" %s\n", s); exit(1); }
-	
 }
 
 SymbolTable symtab;
@@ -30,16 +29,16 @@ block:					{ symtab.level_up(); }
 constdecl:				K_CONST constassignmentlist SEMICOLON
 						|
 						;
-constassignmentlist:	IDENTIFIER EQ NUMBER
-						| constassignmentlist COMMA IDENTIFIER EQ NUMBER
+constassignmentlist:	IDENTIFIER EQ NUMBER { symtab.insert($1, _CONST); }
+						| constassignmentlist COMMA IDENTIFIER EQ NUMBER { symtab.insert($3, _CONST); }
 						;
 vardecl:				K_VAR identlist SEMICOLON
 						|
 						;
-identlist:				IDENTIFIER
-						| identlist COMMA IDENTIFIER
+identlist:				IDENTIFIER { symtab.insert($1, _VAR); }
+						| identlist COMMA IDENTIFIER { symtab.insert($3, _VAR); }
 						;
-procdecl:				procdecl K_PROCEDURE IDENTIFIER SEMICOLON block SEMICOLON
+procdecl:				procdecl K_PROCEDURE IDENTIFIER SEMICOLON block SEMICOLON { symtab.insert($3, _PROC); }
 						|
 						;
 statement:				IDENTIFIER ASSIGN expression
