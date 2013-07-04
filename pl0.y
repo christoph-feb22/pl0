@@ -3,30 +3,39 @@
 #include <cstdlib>
 #include "symbol_table.h"
 #include "global.h"
-
+#include "abstract_syntax_tree_block_node.h"
+/*
 extern "C"
 {
-	int yyparse(void);
-	int yylex(void);  
-	int yywrap() { return 1; }
+	int yyparse();
+	int yylex();
 	int yyerror(char * s) { printf(" %s\n", s); exit(1); }
 }
+*/
 
 void error(int);
 SymbolTable symtab;
+AbstractSyntaxTreeBlockNode * root;
+
+extern int yylex();
+int yyerror(char * s) { printf(" %s\n", s); exit(1); }
 %}
 
-%token K_CONST K_VAR K_PROCEDURE K_CALL K_BEGIN K_END K_IF K_THEN K_WHILE K_DO K_ODD COMMA SEMICOLON EX_MARK QUE_MARK BEQ SEQ ASSIGN EQ PLUS MINUS MUL DIV LT GT HASH DOT L_BRACE R_BRACE CONST ERROR NUMBER;
+%union {
+	char string[255];
+	AbstractSyntaxTreeBlockNode *block;
+}
 
-%union { char string[255]; }
+%token K_CONST K_VAR K_PROCEDURE K_CALL K_BEGIN K_END K_IF K_THEN K_WHILE K_DO K_ODD COMMA SEMICOLON EX_MARK QUE_MARK BEQ SEQ ASSIGN EQ PLUS MINUS MUL DIV LT GT HASH DOT L_BRACE R_BRACE CONST ERROR NUMBER;
 %token<string> IDENTIFIER
 
+%type<block> block
+
 %%
-program:				block DOT
+program:				block DOT { root = new AbstractSyntaxTreeBlockNode(); }
 						;
 block:					{ symtab.level_up(); }
-						constdecl vardecl procdecl statement
-						{ symtab.level_down(); }
+						constdecl vardecl procdecl statement { $$ = new AbstractSyntaxTreeBlockNode(); symtab.level_down(); }
 						;
 constdecl:				K_CONST constassignmentlist SEMICOLON
 						|
@@ -104,3 +113,4 @@ void error(int error_type) {
 int main() {
 	yyparse();
 }
+

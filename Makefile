@@ -1,11 +1,8 @@
-compiler: yacc c_lex
-	g++ symbol_table.cpp symbol_table_entry.cpp lex.o yacc.cc -o compiler
+compiler: yacc lex
+	g++ yacc.cpp lex.cpp symbol_table.cpp symbol_table_entry.cpp -o compiler -Wno-write-strings
 
-c_lex: lex
-	gcc -c lex.yy.c -o lex.o
+lex: yacc pl0.l
+	lex -o lex.cpp pl0.l
 
 yacc: pl0.y
-	yacc -d pl0.y -o yacc.cc
-
-lex: pl0.l
-	lex pl0.l
+	yacc -d -o yacc.cpp pl0.y

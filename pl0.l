@@ -1,13 +1,16 @@
 %{
+#include "abstract_syntax_tree_block_node.h"
 #include <stdio.h>
 #include "global.h"
-#include "yacc.hh"
+
+#include "yacc.hpp"
 
 #define DEBUG 0
 
-line = 1;
+int line = 1;
 
 void debug_print(char * s);
+extern "C" int yywrap() { return 1; }
 %}
 
 %%
