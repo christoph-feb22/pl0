@@ -1,55 +1,100 @@
 #ifndef NODES_H
 #define NODES_H
+#include <string>
+typedef std::string String;
 #include <vector>
-#typedef std::vector<ASTStatement> Statementlist;
-#typedef std::vector<ASTDeclarationNode> Declarationlist;
-#typedef std::vector<ASTProcedureBlockNode> ProcedureBlockList;
-#typedef std::vector<ASTFactorNode> Factorlist;
 
+class ASTNumericExpressionNode;
 
 /********** Set of nodes **********/
 class ASTNode {};
+
 class ASTStatementNode : public ASTNode {};
+typedef std::vector<ASTStatementNode *> StatementList;
+
 class ASTExpressionNode : public ASTNode {};
+
 
 /********** Subset of declaration nodes ***********/
 class ASTDeclarationNode : public ASTNode {
+public:
+	ASTDeclarationNode(String ident) : identifier(ident) {};
 private:
-	Declarationlist declarations;
+	String identifier;
 };
 
-class ASTConstDeclarationNode : public ASTDeclarationNode {};
+class ASTConstDeclarationNode : public ASTDeclarationNode {
+public:
+	ASTConstDeclarationNode(String ident, int value) : ASTDeclarationNode(ident), value(value) {};
+private:
+	int value;
+};
 
-class ASTVarDeclarationNode : public ASTDeclarationNode {};
+class ASTVarDeclarationNode : public ASTDeclarationNode {
+public:
+	ASTVarDeclarationNode(String ident) : ASTDeclarationNode(ident) {};
+};
+
+typedef std::vector<ASTConstDeclarationNode *> ConstDeclarationList;
+typedef std::vector<ASTVarDeclarationNode *> VarDeclarationList;
 
 
 /********** Subset of block nodes **********/
 class ASTBlockNode : public ASTNode {
+typedef std::vector<ASTBlockNode *> ProcedureDeclarationList;
+public:
+	ASTBlockNode() {};
+	ASTBlockNode(ConstDeclarationList * consts, VarDeclarationList * vars, ProcedureDeclarationList * procs, ASTStatementNode * statement)
+		: constants(consts), variables(vars), procedures(procs), statement(statement) {};
 private:
-	ASTConstDeclarationNode * constants;
-	ASTVarDeclarationNode * variables;
+	ConstDeclarationList * constants;
+	VarDeclarationList * variables;
 	
-	ProcedureBlockList procedures;
+	ProcedureDeclarationList * procedures;
 
 	ASTStatementNode * statement;
 };
+typedef std::vector<ASTBlockNode *> ProcedureDeclarationList;
 
 class ASTProcedureBlockNode : public ASTBlockNode {
+public:
+	ASTProcedureBlockNode(String ident, ASTBlockNode * block) : identifier(ident), block(block) {};
 private:
+	String identifier;
 	ASTBlockNode * block;
 };
 
 
 /********** Subset of factor nodes **********/
-class ASTFactorNode : public ASTNode {};
+class ASTFactorNode : public ASTNode {
+public:
+	ASTFactorNode(String ident) : identifier(ident) {};
+	ASTFactorNode(int val) : value(val) {};
+	ASTFactorNode(ASTNumericExpressionNode * exp) : expression(exp) {};
+private:
+	String identifier;
+	int value;
+	ASTNumericExpressionNode * expression;
+};
+typedef std::vector<ASTFactorNode *> FactorList;
 
 class ASTMultiplicationFactorNode : public ASTFactorNode {};
 
 class ASTDivisionFactorNode : public ASTFactorNode {};
 
-
 /********** Subset of term nodes **********/
-class ASTTermNode : public ASTNode {};
+class ASTTermNode : public ASTNode {
+public:
+	ASTTermNode(ASTFactorNode * factor) {
+		factors->push_back(factor);
+	}
+	void insert(ASTFactorNode * factor) {
+		factors->push_back(factor);
+	}
+private:
+	FactorList * factors;
+};
+typedef std::vector<ASTTermNode *> TermList;
 
 class ASTAdditionNode : public ASTTermNode {};
 
@@ -58,7 +103,17 @@ class ASTSubtractionNode : public ASTTermNode {};
 
 /********** Subset of expression nodes **********/
 /********** Subset of numeric expression nodes **********/
-class ASTNumericExpressionNode : public ASTExpressionNode {};
+class ASTNumericExpressionNode : public ASTExpressionNode {
+public:
+	ASTNumericExpressionNode(ASTTermNode * term) {
+		terms->push_back(term);
+	}
+	void insert(ASTTermNode * term) {
+		terms->push_back(term);
+	}
+private:
+	TermList * terms;
+};
 
 /********** Subset of boolean expression nodes (conditions) **********/
 class ASTBooleanExpressionNode : public ASTExpressionNode {};
@@ -66,50 +121,73 @@ class ASTBooleanExpressionNode : public ASTExpressionNode {};
 class ASTConditionNode : public ASTBooleanExpressionNode {};
 
 class ASTOddConditionNode : public ASTConditionNode {
+public:
+	ASTOddConditionNode(ASTNumericExpressionNode * exp) : expression(exp) {};
 private:
-	ASTNumericExpressionNode * exp;
+	ASTNumericExpressionNode * expression;
 };
 
 class ASTCompareConditionNode : public ASTConditionNode {
+public:
+	ASTCompareConditionNode(ASTNumericExpressionNode * exp1, ASTNumericExpressionNode * exp2) : expression_l(exp1), expression_r(exp2) {};
 private:
-	ASTNumericExpressionNode * exp1, exp2;
+	ASTNumericExpressionNode * expression_l, * expression_r;
 };
-
-
-
-
 
 
 /********** Subset of statement nodes **********/
 class ASTStatementBlockNode : public ASTStatementNode {
+public:
+	ASTStatementBlockNode(StatementList * statements) : statements(statements) {};
 private:
-	Statementlist statements;
+	StatementList * statements;
 };
 
-class ASTWhileLoopNode : public ASTStatementNode {
-private:
-	ASTConditionNode * condition;
-	ASTStatementNode * statement;
-};
-
-class ASTIfNode : public ASTStatementNode {
+class ASTConditionalStatementNode : public ASTStatementNode {
+public:
+	ASTConditionalStatementNode(ASTConditionNode * cond, ASTStatementNode * stat) : condition(cond), statement(stat) {};
 private:
 	ASTConditionNode * condition;
 	ASTStatementNode * statement;
 };
 
-class ASTWriteNode : public ASTStatementNode {};
+class ASTWhileLoopNode : public ASTConditionalStatementNode {
+public:
+	ASTWhileLoopNode(ASTConditionNode * cond, ASTStatementNode * stat) : ASTConditionalStatementNode(cond, stat) {};
+};
 
-class ASTReadNode : public ASTStatementNode {};
+class ASTIfNode : public ASTConditionalStatementNode {
+public:
+	ASTIfNode(ASTConditionNode * cond, ASTStatementNode * stat) : ASTConditionalStatementNode(cond, stat) {};
+};
+
+class ASTWriteNode : public ASTStatementNode {
+public:
+	ASTWriteNode(ASTNumericExpressionNode * exp) : expression(exp) {};
+private:
+	ASTNumericExpressionNode * expression;
+};
+
+class ASTReadNode : public ASTStatementNode {
+public:
+	ASTReadNode(String ident) : identifier(ident) {};
+private:
+	String identifier;
+};
 
 class ASTAssignmentNode : public ASTStatementNode {
+public:
+	ASTAssignmentNode(String ident, ASTNumericExpressionNode * exp) : identifier(ident), expression(exp) {};
 private:
-	ASTNumericExpressionNode * exp;
+	String identifier;
+	ASTNumericExpressionNode * expression;
 };
 
-class ASTFunctionCallNode : public ASTStatementNode {};
-
-
-
+class ASTProcedureCallNode : public ASTStatementNode {
+public:
+	ASTProcedureCallNode(String ident) : identifier(ident) {};
+private:
+	String identifier;
+};
 
 #endif
