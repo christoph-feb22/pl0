@@ -7,7 +7,7 @@
 
 void error(int);
 SymbolTable symtab;
-ASTNode * root;
+ASTBlockNode * root;
 
 extern int yylex();
 int yyerror(char * s) { printf(" %s\n", s); exit(1); }
@@ -72,7 +72,7 @@ identlist:				identlist COMMA IDENTIFIER
 						{ symtab.insert($1, _VAR); $$ = new VarDeclarationList(); $$->push_back(new ASTVarDeclarationNode($1)); }
 						;
 procdecl:				procdecl K_PROCEDURE IDENTIFIER { symtab.insert($3, _PROC); } SEMICOLON block SEMICOLON
-						{ $$ = $1; $$->push_back(new ASTProcedureBlockNode($3, $6)); }
+						{ $$ = $1; $$->push_back(new ASTProcedureNode($3, $6)); }
 						|
 						{ $$ = new ProcedureDeclarationList(); }
 						;
@@ -131,7 +131,8 @@ term:					term multipliyingoperator factor
 multipliyingoperator:	MUL
 						| DIV
 						;
-factor:					IDENTIFIER { int level, number, result ; result = symtab.lookup($1, _VAR, level, number); if(result != IDENTIFIER_FOUND) error(result);
+factor:					IDENTIFIER
+						{ int level, number, result ; result = symtab.lookup($1, _VAR, level, number); if(result != IDENTIFIER_FOUND) error(result);
 						$$ = new ASTFactorNode($1); }
 						| NUMBER
 						{ $$ = new ASTFactorNode($1); }
@@ -159,5 +160,6 @@ void error(int error_type) {
 
 int main() {
 	yyparse();
+	root->run();
 }
 

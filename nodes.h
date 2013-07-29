@@ -5,6 +5,9 @@ typedef std::string String;
 #include <vector>
 
 class ASTNumericExpressionNode;
+class ASTProcedureNode;
+
+typedef std::vector<ASTProcedureNode *> ProcedureDeclarationList;
 
 /********** Set of nodes **********/
 class ASTNode {};
@@ -41,11 +44,11 @@ typedef std::vector<ASTVarDeclarationNode *> VarDeclarationList;
 
 /********** Subset of block nodes **********/
 class ASTBlockNode : public ASTNode {
-typedef std::vector<ASTBlockNode *> ProcedureDeclarationList;
 public:
 	ASTBlockNode() {};
 	ASTBlockNode(ConstDeclarationList * consts, VarDeclarationList * vars, ProcedureDeclarationList * procs, ASTStatementNode * statement)
 		: constants(consts), variables(vars), procedures(procs), statement(statement) {};
+	void run();
 private:
 	ConstDeclarationList * constants;
 	VarDeclarationList * variables;
@@ -54,11 +57,11 @@ private:
 
 	ASTStatementNode * statement;
 };
-typedef std::vector<ASTBlockNode *> ProcedureDeclarationList;
 
-class ASTProcedureBlockNode : public ASTBlockNode {
+
+class ASTProcedureNode : public ASTNode {
 public:
-	ASTProcedureBlockNode(String ident, ASTBlockNode * block) : identifier(ident), block(block) {};
+	ASTProcedureNode(String ident, ASTBlockNode * block) : identifier(ident), block(block) {};
 private:
 	String identifier;
 	ASTBlockNode * block;
@@ -86,6 +89,7 @@ class ASTDivisionFactorNode : public ASTFactorNode {};
 class ASTTermNode : public ASTNode {
 public:
 	ASTTermNode(ASTFactorNode * factor) {
+		factors = new FactorList;
 		factors->push_back(factor);
 	}
 	void insert(ASTFactorNode * factor) {
@@ -106,6 +110,7 @@ class ASTSubtractionNode : public ASTTermNode {};
 class ASTNumericExpressionNode : public ASTExpressionNode {
 public:
 	ASTNumericExpressionNode(ASTTermNode * term) {
+		terms = new TermList;
 		terms->push_back(term);
 	}
 	void insert(ASTTermNode * term) {

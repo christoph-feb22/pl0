@@ -6,7 +6,7 @@
 
 #include "yacc.hpp"
 
-#define DEBUG 0
+#define DEBUG 1
 
 int line = 1;
 
