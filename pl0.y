@@ -160,6 +160,6 @@ void error(int error_type) {
 
 int main() {
 	yyparse();
-	root->run();
+	root->execute();
 }
 
