@@ -1,9 +1,7 @@
-#include "nodes.h"
+#include "block_nodes.h"
 #include <vector>
 	using namespace std;
 
-void ASTBlockNode::run() {
-	static vector<int> x();
-
-	
+void ASTBlockNode::execute() {
+	vector<int> x();
 }
