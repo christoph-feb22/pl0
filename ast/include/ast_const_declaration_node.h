@@ -10,4 +10,6 @@ private:
   int value;
 };
 
+typedef std::vector<ASTConstDeclarationNode *> ConstDeclarationList;
+
 #endif

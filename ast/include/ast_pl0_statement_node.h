@@ -6,4 +6,6 @@
 class ASTPL0StatementNode : public ASTStatementNode {
 };
 
+typedef std::vector<ASTPL0StatementNode *> StatementList;
+
 #endif

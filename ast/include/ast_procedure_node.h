@@ -13,4 +13,6 @@ private:
   ASTBlockNode * block;
 };
 
+typedef std::vector<ASTProcedureNode *> ProcedureDeclarationList;
+
 #endif

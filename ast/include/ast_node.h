@@ -15,14 +15,6 @@ class ASTConditionNode;
 class ASTFactorNode;
 class ASTBlockNode;
 
-typedef std::vector<ASTProcedureNode *> ProcedureDeclarationList;
-typedef std::vector<ASTStatementNode *> StatementList;
-typedef std::vector<ASTConstDeclarationNode *> ConstDeclarationList;
-typedef std::vector<ASTVarDeclarationNode *> VarDeclarationList;
-typedef std::vector<ASTTermNode *> TermList;
-typedef std::vector<ASTFactorNode *> FactorList;
-
-
 class ASTNode {
 public:
 	void execute();

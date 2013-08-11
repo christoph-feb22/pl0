@@ -2,6 +2,7 @@
 #define AST_NUMERIC_EXPRESSION_NODE
 
 #include "ast_expression_node.h"
+#include "ast_term_node.h"
 
 class ASTNumericExpressionNode : public ASTExpressionNode {
 public:
