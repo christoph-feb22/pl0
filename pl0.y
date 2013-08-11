@@ -158,7 +158,7 @@ void error(int error_type) {
 			break;
 		default:
 			sprintf(error_msg, "Line %d: Unknown error.", line);
-			break;		
+			break;
 	}
 	symtab.print();
 	yyerror(error_msg);
