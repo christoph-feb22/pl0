@@ -12,7 +12,7 @@ public:
   void insert(ASTFactorNode * factor) {
     factors->push_back(factor);
   }
-  int eval() {return 1};
+  int eval() {return 1;}
 private:
   FactorList * factors;
 };
