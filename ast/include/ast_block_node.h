@@ -1,16 +1,16 @@
 #ifndef AST_BLOCK_NODE_H
 #define AST_BLOCK_NODE_H
 
-#include "ast_node.h"
+#include "ast_statement_node.h"
 #include "ast_statement_node.h"
 
-/********** Subset of block nodes **********/
-class ASTBlockNode : public ASTNode {
+class ASTBlockNode : public ASTStatementNode {
 public:
 	ASTBlockNode() {};
 	ASTBlockNode(ConstDeclarationList * consts, VarDeclarationList * vars, ProcedureDeclarationList * procs, ASTStatementNode * statement)
 		: constants(consts), variables(vars), procedures(procs), statement(statement) {};
-	void execute();
+  void execute();
+
 private:
 	ConstDeclarationList * constants;
 	VarDeclarationList * variables;

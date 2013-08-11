@@ -4,6 +4,8 @@
 #include "ast_node.h"
 
 class ASTStatementNode : public ASTNode {
+public:
+  void execute();
 };
 
 #endif

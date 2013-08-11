@@ -1,7 +1,6 @@
 #ifndef NODES_H
 #define NODES_H
 
-
 #include <string>
 typedef std::string String;
 #include <vector>
@@ -14,6 +13,7 @@ class ASTVarDeclarationNode;
 class ASTTermNode;
 class ASTConditionNode;
 class ASTFactorNode;
+class ASTBlockNode;
 
 typedef std::vector<ASTProcedureNode *> ProcedureDeclarationList;
 typedef std::vector<ASTStatementNode *> StatementList;
