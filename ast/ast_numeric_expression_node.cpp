@@ -6,6 +6,6 @@ int ASTNumericExpressionNode::eval() {
 	for(TermList::iterator it = terms->begin(); it != terms->end(); ++it) {
 		val += (*it)->eval();
 	}
-	
+
 	return val;
 }

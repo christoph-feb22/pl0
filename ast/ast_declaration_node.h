@@ -1,7 +1,7 @@
-#ifndef DECLARATION_NODES_H
-#define DECLARATION_NODES_H
+#ifndef AST_DECLARATION_NODE_H
+#define AST_DECLARATION_NODE_H
 
-#include "nodes.h"
+#include "ast_node.h"
 
 /********** Subset of declaration nodes ***********/
 class ASTDeclarationNode : public ASTNode {
@@ -10,18 +10,5 @@ public:
 private:
 	String identifier;
 };
-
-class ASTConstDeclarationNode : public ASTDeclarationNode {
-public:
-	ASTConstDeclarationNode(String ident, int value) : ASTDeclarationNode(ident), value(value) {};
-private:
-	int value;
-};
-
-class ASTVarDeclarationNode : public ASTDeclarationNode {
-public:
-	ASTVarDeclarationNode(String ident) : ASTDeclarationNode(ident) {};
-};
-
 
 #endif
