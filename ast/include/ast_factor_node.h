@@ -1,9 +1,9 @@
 #ifndef FACTOR_NODES_H
 #define FACTOR_NODES_H
 
-#include "nodes.h"
+#include "ast_node.h"
+#include "ast_numeric_expression_node.h"
 
-/********** Subset of factor nodes **********/
 class ASTFactorNode : public ASTNode {
 public:
 	ASTFactorNode(String ident) : identifier(ident) {};
@@ -14,10 +14,5 @@ private:
 	int value;
 	ASTNumericExpressionNode * expression;
 };
-typedef std::vector<ASTFactorNode *> FactorList;
-
-class ASTMultiplicationFactorNode : public ASTFactorNode {};
-
-class ASTDivisionFactorNode : public ASTFactorNode {};
 
 #endif
