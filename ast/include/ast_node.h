@@ -13,6 +13,7 @@ class ASTConstDeclarationNode;
 class ASTVarDeclarationNode;
 class ASTTermNode;
 class ASTConditionNode;
+class ASTFactorNode;
 
 typedef std::vector<ASTProcedureNode *> ProcedureDeclarationList;
 typedef std::vector<ASTStatementNode *> StatementList;
