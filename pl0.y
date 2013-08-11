@@ -3,13 +3,25 @@
 #include <cstdlib>
 #include "symbol_table.h"
 #include "global.h"
-#include "ast/include/ast_node.h"
+//#include "ast/include/ast_node.h"
 #include "ast/include/ast_block_node.h"
 #include "ast/include/ast_statement_node.h"
 #include "ast/include/ast_condition_node.h"
 #include "ast/include/ast_numeric_expression_node.h"
 #include "ast/include/ast_term_node.h"
 #include "ast/include/ast_factor_node.h"
+#include "ast/include/ast_const_declaration_node.h"
+#include "ast/include/ast_var_declaration_node.h"
+#include "ast/include/ast_procedure_node.h"
+#include "ast/include/ast_assignment_node.h"
+#include "ast/include/ast_procedure_call_node.h"
+#include "ast/include/ast_write_node.h"
+#include "ast/include/ast_read_node.h"
+#include "ast/include/statement_block_node.h"
+#include "ast/include/ast_if_node.h"
+#include "ast/include/ast_while_loop_node.h"
+#include "ast/include/ast_odd_condition_node.h"
+#include "ast/include/ast_compare_condition_node.h"
 
 void error(int);
 SymbolTable symtab;
