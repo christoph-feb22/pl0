@@ -3,7 +3,13 @@
 #include <cstdlib>
 #include "symbol_table.h"
 #include "global.h"
-#include "nodes.h"
+#include "ast/include/ast_node.h"
+#include "ast/include/ast_block_node.h"
+#include "ast/include/ast_statement_node.h"
+#include "ast/include/ast_condition_node.h"
+#include "ast/include/ast_numeric_expression_node.h"
+#include "ast/include/ast_term_node.h"
+#include "ast/include/ast_factor_node.h"
 
 void error(int);
 SymbolTable symtab;
