@@ -2,6 +2,7 @@
 #define AST_BLOCK_NODE_H
 
 #include "ast_node.h"
+#include "ast_statement_node.h"
 
 /********** Subset of block nodes **********/
 class ASTBlockNode : public ASTNode {

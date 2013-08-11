@@ -2,6 +2,7 @@
 #define AST_PROCEDURE_NODE_H
 
 #include "ast_node.h"
+#include "ast_block_node.h"
 
 class ASTProcedureNode : public ASTNode {
 public:

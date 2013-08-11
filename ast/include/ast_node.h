@@ -19,18 +19,12 @@ typedef std::vector<ASTStatementNode *> StatementList;
 typedef std::vector<ASTConstDeclarationNode *> ConstDeclarationList;
 typedef std::vector<ASTVarDeclarationNode *> VarDeclarationList;
 typedef std::vector<ASTTermNode *> TermList;
+typedef std::vector<ASTFactorNode *> FactorList;
 
 
-/********** Set of nodes **********/
 class ASTNode {
 public:
 	void execute();
 };
 
-#include "expression_nodes.h"
-#include "statement_nodes.h"
-#include "block_nodes.h"
-#include "declaration_nodes.h"
-#include "factor_nodes.h"
-//#include "term_nodes.h"
 #endif
