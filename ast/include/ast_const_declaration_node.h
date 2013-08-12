@@ -5,7 +5,9 @@
 
 class ASTConstDeclarationNode : public ASTDeclarationNode {
 public:
-  ASTConstDeclarationNode(String ident, int value) : ASTDeclarationNode(ident), value(value) {};
+  ASTConstDeclarationNode(String ident, int value);
+  void execute();
+
 private:
   int value;
 };

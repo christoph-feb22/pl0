@@ -5,8 +5,15 @@
 typedef std::string String;
 
 #include "types.h"
+#include "../../memory_management/include/memory_management.h"
 
 class ASTNode {
+public:
+  ASTNode();
+  ASTNode(MemoryManagement * m);
+
+private:
+  MemoryManagement * memory;
 };
 
 #endif

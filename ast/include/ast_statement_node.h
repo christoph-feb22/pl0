@@ -5,7 +5,9 @@
 
 class ASTStatementNode : public ASTNode {
 public:
-  void execute();
+  ASTStatementNode();
+  ASTStatementNode(MemoryManagement * m);
+  virtual void execute() = 0;
 };
 
 #endif

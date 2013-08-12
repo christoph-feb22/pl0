@@ -5,7 +5,8 @@
 
 class ASTDeclarationNode : public ASTStatementNode {
 public:
-	ASTDeclarationNode(String ident) : identifier(ident) {};
+	ASTDeclarationNode(String ident);
+  ASTDeclarationNode(MemoryManagement * m);
 
 private:
 	String identifier;
