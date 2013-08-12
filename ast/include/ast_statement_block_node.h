@@ -5,7 +5,9 @@
 
 class ASTStatementBlockNode : public ASTPL0StatementNode {
 public:
-  ASTStatementBlockNode(StatementList * statements) : statements(statements) {};
+  ASTStatementBlockNode(StatementList * statements);
+  void execute();
+
 private:
   StatementList * statements;
 };
