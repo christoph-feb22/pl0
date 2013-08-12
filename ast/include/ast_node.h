@@ -12,7 +12,7 @@ public:
   ASTNode();
   ASTNode(MemoryManagement * m);
 
-private:
+protected:
   MemoryManagement * memory;
 };
 
