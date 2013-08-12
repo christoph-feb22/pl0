@@ -6,7 +6,9 @@
 
 class ASTWriteNode : public ASTPL0StatementNode {
 public:
-  ASTWriteNode(ASTNumericExpressionNode * exp) : expression(exp) {};
+  ASTWriteNode(ASTNumericExpressionNode * exp);
+  void execute();
+
 private:
   ASTNumericExpressionNode * expression;
 };
