@@ -99,7 +99,7 @@ procdecl:				procdecl K_PROCEDURE IDENTIFIER { symtab.insert($3, _PROC); } SEMIC
 						;
 statement:				IDENTIFIER ASSIGN expression
 						{ int level, number, result ; result = symtab.lookup($1, _VAR, level, number); if(result != IDENTIFIER_FOUND) error(result);
-						$$ = new ASTAssignmentNode($1, $3); }
+						$$ = new ASTAssignmentNode(level, number, $3); }
 						| K_CALL IDENTIFIER
 						{ int level, number, result ; result = symtab.lookup($2, _PROC, level, number); if(result != IDENTIFIER_FOUND) error(result);
 						$$ = new ASTProcedureCallNode($2); }

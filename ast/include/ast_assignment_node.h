@@ -6,9 +6,11 @@
 
 class ASTAssignmentNode : public ASTPL0StatementNode {
 public:
-  ASTAssignmentNode(String ident, ASTNumericExpressionNode * exp) : identifier(ident), expression(exp) {};
+  ASTAssignmentNode(int delta, int number, ASTNumericExpressionNode * exp);
+  void execute();
+
 private:
-  String identifier;
+  int delta, number;
   ASTNumericExpressionNode * expression;
 };
 
