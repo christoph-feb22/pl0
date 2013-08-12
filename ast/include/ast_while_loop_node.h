@@ -5,7 +5,8 @@
 
 class ASTWhileLoopNode : public ASTConditionalStatementNode {
 public:
-  ASTWhileLoopNode(ASTConditionNode * cond, ASTStatementNode * stat) : ASTConditionalStatementNode(cond, stat) {};
+  ASTWhileLoopNode(ASTConditionNode * cond, ASTStatementNode * stat);
+  void execute();
 };
 
 #endif
