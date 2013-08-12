@@ -1,5 +1,5 @@
 %{
-#include "ast/include/ast_node.h"
+#include "ast/include/types.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "global.h"
