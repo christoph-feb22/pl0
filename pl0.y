@@ -3,9 +3,12 @@
 #include <cstdlib>
 #include "symbol_table.h"
 #include "global.h"
+
+#include "ast/include/types.h"
+
 //#include "ast/include/ast_node.h"
 #include "ast/include/ast_block_node.h"
-#include "ast/include/ast_statement_node.h"
+#include "ast/include/ast_pl0_statement_node.h"
 #include "ast/include/ast_condition_node.h"
 #include "ast/include/ast_numeric_expression_node.h"
 #include "ast/include/ast_term_node.h"
@@ -17,7 +20,7 @@
 #include "ast/include/ast_procedure_call_node.h"
 #include "ast/include/ast_write_node.h"
 #include "ast/include/ast_read_node.h"
-#include "ast/include/statement_block_node.h"
+#include "ast/include/ast_statement_block_node.h"
 #include "ast/include/ast_if_node.h"
 #include "ast/include/ast_while_loop_node.h"
 #include "ast/include/ast_odd_condition_node.h"
@@ -35,7 +38,7 @@ int yyerror(char * s) { printf(" %s\n", s); exit(1); }
 	char string[255];
 	int number;
 	ASTBlockNode * block;
-	ASTStatementNode * statement;
+	ASTPL0StatementNode * statement;
 	ASTConditionNode * condition;
 	ASTNumericExpressionNode * expression;
 	ASTTermNode * term;
