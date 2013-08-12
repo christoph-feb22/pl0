@@ -5,7 +5,9 @@
 
 class ASTProcedureCallNode : public ASTPL0StatementNode {
 public:
-  ASTProcedureCallNode(String ident) : identifier(ident) {};
+  ASTProcedureCallNode(String ident);
+  void execute();
+
 private:
   String identifier;
 };
