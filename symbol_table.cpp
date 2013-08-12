@@ -2,14 +2,12 @@
 #include <iostream>
 	using namespace std;
 
-SymbolTable::SymbolTable()
-{
+SymbolTable::SymbolTable() {
 	level = -1;
 	max_number = 0;
 }
 
-void SymbolTable::level_up()
-{
+void SymbolTable::level_up() {
 	level++;
 	// Vector vergrößern, falls zu klein
 	if(symbol_table.size() <= level) {
@@ -18,15 +16,13 @@ void SymbolTable::level_up()
 	//print();
 }
 
-void SymbolTable::level_down()
-{
+void SymbolTable::level_down() {
 	print();
 	symbol_table[level].clear();
 	level--;
 }
 
-void SymbolTable::insert(string key, int type)
-{
+void SymbolTable::insert(string key, int type) {
 	// only insert if key not inserted yet in this level
 	if(symbol_table[level].find(key) == symbol_table[level].end()) {
 		// calculate running number
@@ -38,8 +34,7 @@ void SymbolTable::insert(string key, int type)
 	}
 }
 
-int SymbolTable::lookup(string key, int type, int& p_level, int& number)
-{
+int SymbolTable::lookup(string key, int type, int& p_level, int& number) {
 	// start in highest level
 	int tmp_level = level + 1;
 	cout << "Lookup for:" << key << " level: " << level << "\n";
@@ -63,8 +58,7 @@ int SymbolTable::lookup(string key, int type, int& p_level, int& number)
 	}
 }
 
-void SymbolTable::print()
-{
+void SymbolTable::print() {
 	cout << "Start - Print\n";
 	cout << "Current Level: " << level << "\n";
 	for(int i = 0; i < symbol_table.size(); i++) {
@@ -75,7 +69,7 @@ void SymbolTable::print()
 			cout << "Typ: " << iter->second.getType() << "\n";
 		}
 	}
-	
+
 /*
 	for(int i = 0; i < symbol_table.size(); i++) {
 		cout << max_number - i << "\t";

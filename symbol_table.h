@@ -15,21 +15,21 @@
 #include <string>
 	using namespace std;
 
-class SymbolTable
-{
-	public:
-		SymbolTable();
-		void level_up();
-		void level_down();
-		void insert(string, int);
-		int lookup(string, int, int&, int&);
-		void print();
+class SymbolTable {
+public:
+	SymbolTable();
+	void level_up();
+	void level_down();
+	void insert(string, int);
+	int lookup(string, int, int&, int&);
 
-	private:
-		int level;
-		vector< map<string, SymbolTableEntry> > symbol_table;
-		typedef map<string, SymbolTableEntry>::reverse_iterator map_iter;
-		int max_number;
+	void print();
+
+private:
+	int level;
+	vector< map<string, SymbolTableEntry> > symbol_table;
+	typedef map<string, SymbolTableEntry>::reverse_iterator map_iter;
+	int max_number;
 };
 
 #endif
