@@ -5,9 +5,11 @@
 
 class ASTReadNode : public ASTPL0StatementNode {
 public:
-  ASTReadNode(String ident) : identifier(ident) {};
+  ASTReadNode(int delta, int number);
+  void execute();
+
 private:
-  String identifier;
+  int delta, number;
 };
 
 #endif
