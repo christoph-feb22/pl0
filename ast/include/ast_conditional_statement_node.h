@@ -7,7 +7,8 @@
 class ASTConditionalStatementNode : public ASTPL0StatementNode {
 public:
   ASTConditionalStatementNode(ASTConditionNode * cond, ASTStatementNode * stat) : condition(cond), statement(stat) {};
-private:
+
+protected:
   ASTConditionNode * condition;
   ASTStatementNode * statement;
 };
