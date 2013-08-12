@@ -2,6 +2,7 @@
 #define MEMORY_MANAGEMENT_H
 
 #include <vector>
+  using std::vector;
 
 class MemoryManagement {
 public:
@@ -10,7 +11,7 @@ public:
   int getValue(int address);
 
 private:
-  std::vector<int> * memory;
+  vector<int> * memory;
 };
 
 #endif

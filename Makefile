@@ -1,5 +1,5 @@
 compiler: yacc lex
-	g++ yacc.cpp lex.cpp symbol_table.cpp symbol_table_entry.cpp ast/src/* -o compiler -Wno-write-strings
+	g++ yacc.cpp lex.cpp symbol_table.cpp symbol_table_entry.cpp ast/src/* memory_management/src/* -o compiler -Wno-write-strings
 
 lex: yacc pl0.l
 	lex -o lex.cpp pl0.l
