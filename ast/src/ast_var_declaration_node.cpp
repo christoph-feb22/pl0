@@ -5,5 +5,5 @@ ASTVarDeclarationNode::ASTVarDeclarationNode(String ident) : ASTDeclarationNode(
 ASTVarDeclarationNode::ASTVarDeclarationNode(MemoryManagement * m, int delta, int number) : ASTDeclarationNode(m), delta(delta), number(number) {}
 
 void ASTVarDeclarationNode::execute() {
-  memory->setValue(delta, number);
+  memory->insertValue(delta, number);
 }
