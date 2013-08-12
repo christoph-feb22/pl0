@@ -5,7 +5,8 @@
 
 class ASTIfNode : public ASTConditionalStatementNode {
 public:
-  ASTIfNode(ASTConditionNode * cond, ASTStatementNode * stat) : ASTConditionalStatementNode(cond, stat) {};
+  ASTIfNode(ASTConditionNode * cond, ASTStatementNode * stat);
+  void execute();
 };
 
 #endif
