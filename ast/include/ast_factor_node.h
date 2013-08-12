@@ -16,6 +16,4 @@ private:
 	ASTNumericExpressionNode * expression;
 };
 
-typedef std::vector<ASTFactorNode *> FactorList;
-
 #endif

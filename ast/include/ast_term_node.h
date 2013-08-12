@@ -17,6 +17,4 @@ private:
   FactorList * factors;
 };
 
-typedef std::vector<ASTTermNode *> TermList;
-
 #endif

@@ -8,6 +8,4 @@ public:
   ASTVarDeclarationNode(String ident) : ASTDeclarationNode(ident) {};
 };
 
-typedef std::vector<ASTVarDeclarationNode *> VarDeclarationList;
-
 #endif
