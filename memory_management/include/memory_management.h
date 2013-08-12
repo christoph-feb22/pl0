@@ -6,7 +6,7 @@
 class MemoryManagement {
 public:
   MemoryManagement();
-  int setValue(int delta, int number);
+  int insertValue(int delta, int number, int value = 0);
   int getValue(int address);
 
 private:
