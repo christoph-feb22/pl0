@@ -7,6 +7,8 @@
 class ASTOddConditionNode : public ASTConditionNode {
 public:
   ASTOddConditionNode(ASTNumericExpressionNode * exp) : expression(exp) {};
+  int eval();
+
 private:
   ASTNumericExpressionNode * expression;
 };
