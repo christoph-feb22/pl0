@@ -3,5 +3,5 @@
 ASTOddConditionNode::ASTOddConditionNode(ASTNumericExpressionNode * exp) : expression(exp) {}
 
 int ASTOddConditionNode::eval() {
-  return expression->eval() & 1
+  return (expression->eval() & 1);
 }
