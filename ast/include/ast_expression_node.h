@@ -5,7 +5,7 @@
 
 class ASTExpressionNode : public ASTNode {
 public:
-	int eval();
+	virtual int eval() = 0;
 };
 
 #endif
