@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include "symbol_table.h"
 #include "global.h"
+#include "memory_management/include/memory_management.h"
 
 #include "ast/include/types.h"
 
@@ -46,6 +47,7 @@
 
 void error(int);
 SymbolTable symtab;
+MemoryManagement * memory;
 ASTBlockNode * root;
 
 extern int yylex();
