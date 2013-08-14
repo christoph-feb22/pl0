@@ -8,7 +8,7 @@ class MemoryManagement {
 public:
   MemoryManagement();
   int insertValue(int delta, int number, int value = 0);
-  int getValue(int address);
+  int getValue(int delta, int number);
 
 private:
   vector<int> * memory;

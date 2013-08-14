@@ -7,3 +7,7 @@ MemoryManagement::MemoryManagement() {
 int MemoryManagement::insertValue(int delta, int number, int value) {
 
 }
+
+int MemoryManagement::getValue(int delta, int number) {
+
+}
