@@ -5,8 +5,6 @@
 
 class ASTVarDeclarationNode : public ASTDeclarationNode {
 public:
-  ASTVarDeclarationNode();
-  ASTVarDeclarationNode(String ident);
   ASTVarDeclarationNode(MemoryManagement *, int delta, int number);
   void execute();
 

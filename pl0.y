@@ -109,9 +109,13 @@ vardecl:				K_VAR identlist SEMICOLON
 						{ $$ = NULL; }
 						;
 identlist:				identlist COMMA IDENTIFIER
-						{ symtab.insert($3, _VAR); $$ = $1; $$->push_back(new ASTVarDeclarationNode($3)); }
+						{ symtab.insert($3, _VAR);
+							int level, number; symtab.lookup($3, _VAR, level, number);
+							$$ = $1; $$->push_back(new ASTVarDeclarationNode(memory, level, number)); }
 						| IDENTIFIER
-						{ symtab.insert($1, _VAR); $$ = new VarDeclarationList(); $$->push_back(new ASTVarDeclarationNode($1)); }
+						{ symtab.insert($1, _VAR);
+							int level, number; symtab.lookup($1, _VAR, level, number);
+							$$ = new VarDeclarationList(); $$->push_back(new ASTVarDeclarationNode(memory, level, number)); }
 						;
 procdecl:				procdecl K_PROCEDURE IDENTIFIER { symtab.insert($3, _PROC); } SEMICOLON block SEMICOLON
 						{ $$ = $1; $$->push_back(new ASTProcedureNode($3, $6)); }
