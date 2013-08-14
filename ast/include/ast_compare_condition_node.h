@@ -6,8 +6,9 @@
 
 class ASTCompareConditionNode : public ASTConditionNode {
 public:
-  ASTCompareConditionNode(ASTNumericExpressionNode * exp1, ASTNumericExpressionNode * exp2) : expression_l(exp1), expression_r(exp2) {};
-private:
+  ASTCompareConditionNode(ASTNumericExpressionNode * exp1, ASTNumericExpressionNode * exp2);
+
+protected:
   ASTNumericExpressionNode * expression_l, * expression_r;
 };
 
