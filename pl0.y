@@ -91,7 +91,7 @@ program:				block DOT { root = $1; }
 						;
 block:					{ symtab.level_up(); }
 						constdecl vardecl procdecl statement
-						{ $$ = new ASTBlockNode($2, $3, $4, $5); symtab.level_down(); }
+						{ $$ = new ASTBlockNode($2, $3, $4, $5, memory); symtab.level_down(); }
 						;
 constdecl:				K_CONST constassignmentlist SEMICOLON
 						{ $$ = $2; }
@@ -106,7 +106,7 @@ constassignmentlist:	constassignmentlist COMMA IDENTIFIER { symtab.insert($3, _C
 vardecl:				K_VAR identlist SEMICOLON
 						{ $$ = $2; }
 						|
-						{ $$ = NULL; }
+						{ $$ = NULL ; }
 						;
 identlist:				identlist COMMA IDENTIFIER
 						{ symtab.insert($3, _VAR);

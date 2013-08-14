@@ -1,6 +1,6 @@
 #include "../include/ast_block_node.h"
 
-ASTBlockNode::ASTBlockNode(ConstDeclarationList * consts, VarDeclarationList * vars, ProcedureDeclarationList * procs, ASTPL0StatementNode * statement) : constants(consts), variables(vars), procedures(procs), statement(statement) {}
+ASTBlockNode::ASTBlockNode(ConstDeclarationList * consts, VarDeclarationList * vars, ProcedureDeclarationList * procs, ASTPL0StatementNode * statement, MemoryManagement * memory) : ASTStatementNode(memory), constants(consts), variables(vars), procedures(procs), statement(statement) {}
 
 void ASTBlockNode::execute() {
   if(constants) {

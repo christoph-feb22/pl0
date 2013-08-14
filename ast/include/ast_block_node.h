@@ -6,10 +6,11 @@
 #include "ast_var_declaration_node.h"
 #include "ast_procedure_node.h"
 #include "ast_pl0_statement_node.h"
+#include "../../memory_management/include/memory_management.h"
 
 class ASTBlockNode : public ASTStatementNode {
 public:
-	ASTBlockNode(ConstDeclarationList * consts, VarDeclarationList * vars, ProcedureDeclarationList * procs, ASTPL0StatementNode * statement);
+	ASTBlockNode(ConstDeclarationList * consts, VarDeclarationList * vars, ProcedureDeclarationList * procs, ASTPL0StatementNode * statement, MemoryManagement * memory);
   void execute();
 
 private:
