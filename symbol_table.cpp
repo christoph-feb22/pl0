@@ -17,7 +17,7 @@ void SymbolTable::level_up() {
 }
 
 void SymbolTable::level_down() {
-	print();
+	//print();
 	symbol_table[level].clear();
 	level--;
 }
