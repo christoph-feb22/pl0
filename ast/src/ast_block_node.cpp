@@ -3,16 +3,22 @@
 ASTBlockNode::ASTBlockNode(ConstDeclarationList * consts, VarDeclarationList * vars, ProcedureDeclarationList * procs, ASTPL0StatementNode * statement) : constants(consts), variables(vars), procedures(procs), statement(statement) {}
 
 void ASTBlockNode::execute() {
-	for(ConstDeclarationList::iterator it = constants->begin(); it != constants->end(); ++it) {
-    (*it)->execute();
+  if(constants) {
+    for(int i = 0; i < constants->size(); i++) {
+      constants->at(i)->execute();
+    }
   }
 
-  for(VarDeclarationList::iterator it = variables->begin(); it != variables->end(); ++it) {
-    (*it)->execute();
+  if(variables) {
+    for(int i = 0; i < variables->size(); i++) {
+      variables->at(i)->execute();
+    }
   }
 
-  for(ProcedureDeclarationList::iterator it = procedures->begin(); it != procedures->end(); ++it) {
-    (*it)->execute();
+  if(procedures) {
+    for(int i = 0; i < procedures->size(); i++) {
+      procedures->at(i)->execute();
+    }
   }
 
   statement->execute();
