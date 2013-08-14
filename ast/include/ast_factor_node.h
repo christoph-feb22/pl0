@@ -1,19 +1,19 @@
-#ifndef FACTOR_NODES_H
-#define FACTOR_NODES_H
+#ifndef AST_FACTOR_NODE_H
+#define AST_FACTOR_NODE_H
+
+#define MULTIPLICATION 1
+#define DIVISION 2
 
 #include "ast_expression_node.h"
-#include "ast_numeric_expression_node.h"
 
 class ASTFactorNode : public ASTExpressionNode {
 public:
-	ASTFactorNode(String ident) : identifier(ident) {};
-	ASTFactorNode(int val) : value(val) {};
-	ASTFactorNode(ASTNumericExpressionNode * exp) : expression(exp) {};
+  void setMultiplicationOperator();
+  void setDivisionOperator();
+  int getOperator();
 
 private:
-	String identifier;
-	int value;
-	ASTNumericExpressionNode * expression;
+  int factor_operator;
 };
 
 #endif
