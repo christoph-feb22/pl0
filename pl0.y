@@ -13,6 +13,9 @@
 #include "ast/include/ast_numeric_expression_node.h"
 #include "ast/include/ast_term_node.h"
 #include "ast/include/ast_factor_node.h"
+#include "ast/include/ast_constant_factor_node.h"
+#include "ast/include/ast_variable_factor_node.h"
+#include "ast/include/ast_expression_factor_node.h"
 #include "ast/include/ast_const_declaration_node.h"
 #include "ast/include/ast_var_declaration_node.h"
 #include "ast/include/ast_procedure_node.h"
@@ -25,6 +28,21 @@
 #include "ast/include/ast_while_loop_node.h"
 #include "ast/include/ast_odd_condition_node.h"
 #include "ast/include/ast_compare_condition_node.h"
+#include "ast/include/ast_equal_compare_condition_node.h"
+#include "ast/include/ast_not_equal_compare_condition_node.h"
+#include "ast/include/ast_less_than_compare_condition_node.h"
+#include "ast/include/ast_greater_than_compare_condition_node.h"
+#include "ast/include/ast_greater_than_or_equal_compare_condition_node.h"
+#include "ast/include/ast_less_than_or_equal_compare_condition_node.h"
+
+#define EQUAL 1
+#define NOT_EQUAL 2
+#define LESS_THAN 3
+#define GREATER_THAN 4
+#define LESS_THAN_OR_EQUAL 5
+#define GREATER_THAN_OR_EQUAL 6
+#define MULTIPLICATION_OPERATOR 7
+#define DIVISION_OPERATOR 8
 
 void error(int);
 SymbolTable symtab;
@@ -64,6 +82,7 @@ int yyerror(char * s) { printf(" %s\n", s); exit(1); }
 %type<expression> expression
 %type<term> term
 %type<factor> factor
+%type<number> relation multipliyingoperator
 
 %%
 program:				block DOT { root = $1; }
@@ -125,14 +144,19 @@ statementlist:			statementlist SEMICOLON statement
 condition:				K_ODD expression
 						{ $$ = new ASTOddConditionNode($2); }
 						| expression relation expression
-						{ $$ = new ASTCompareConditionNode($1, $3); }
+						{ if($2 == EQ) $$ = new ASTEqualCompareConditionNode($1, $3);
+							else if($2 == HASH) $$ = new ASTNotEqualCompareConditionNode($1, $3);
+							else if($2 == LT)  $$ = new ASTLessThanCompareConditionNode($1, $3);
+							else if($2 == GT) $$ = new ASTGreaterThanCompareConditionNode($1, $3);
+							else if($2 == BEQ) $$ = new ASTLessThanOrEqualCompareConditionNode($1, $3);
+							else if($2 == SEQ) $$ = new ASTGreaterThanOrEqualCompareConditionNode($1, $3); }
 						;
-relation:				EQ
-						| HASH
-						| LT
-						| GT
-						| BEQ
-						| SEQ
+relation:				EQ { $$ = EQUAL; }
+						| HASH { $$ = NOT_EQUAL; }
+						| LT { $$ = LESS_THAN; }
+						| GT { $$ = GREATER_THAN; }
+						| BEQ { $$ = GREATER_THAN_OR_EQUAL; }
+						| SEQ { $$ = LESS_THAN_OR_EQUAL; }
 						;
 expression:				expression addingoperator term
 						{ $$ = $1; $$->insert($3); }
@@ -145,20 +169,24 @@ addingoperator:			PLUS
 						| MINUS
 						;
 term:					term multipliyingoperator factor
-						{ $$ = $1; $$->insert($3); }
+						{ $$ = $1;
+						if($2 == MULTIPLICATION) $3->setMultiplicationOperator();
+						else if($2 == DIVISION) $3->setDivisionOperator();
+						$$->insert($3); }
 						| factor
-						{ $$ = new ASTTermNode($1); }
+						{ $1->setMultiplicationOperator();
+							$$ = new ASTTermNode($1); }
 						;
-multipliyingoperator:	MUL
-						| DIV
+multipliyingoperator:	MUL { return MULTIPLICATION_OPERATOR; }
+						| DIV { return DIVISION_OPERATOR; }
 						;
 factor:					IDENTIFIER
 						{ int level, number, result ; result = symtab.lookup($1, _VAR, level, number); if(result != IDENTIFIER_FOUND) error(result);
-						$$ = new ASTFactorNode($1); }
+						$$ = new ASTVariableFactorNode(level, number); }
 						| NUMBER
-						{ $$ = new ASTFactorNode($1); }
+						{ $$ = new ASTConstantFactorNode($1); }
 						| L_BRACE expression R_BRACE
-						{ $$ = new ASTFactorNode($2); }
+						{ $$ = new ASTExpressionFactorNode($2); }
 						;
 %%
 
