@@ -5,5 +5,5 @@
 ASTWriteNode::ASTWriteNode(ASTNumericExpressionNode * exp) : expression(exp) {}
 
 void ASTWriteNode::execute() {
-  cout << expression->eval();
+  cout << expression->eval() << "\n";
 }
