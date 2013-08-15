@@ -1,8 +1,10 @@
 #include "../include/ast_block_node.h"
 
-ASTBlockNode::ASTBlockNode(ConstDeclarationList * consts, VarDeclarationList * vars, ProcedureDeclarationList * procs, ASTPL0StatementNode * statement, MemoryManagement * memory) : ASTStatementNode(memory), constants(consts), variables(vars), procedures(procs), statement(statement) {}
+ASTBlockNode::ASTBlockNode(ConstDeclarationList * consts, VarDeclarationList * vars, ProcedureDeclarationList * procs, ASTPL0StatementNode * statement, MemoryManagement * memory, int level) : ASTStatementNode(memory), constants(consts), variables(vars), procedures(procs), statement(statement), level(level) {}
 
 void ASTBlockNode::execute() {
+  int number_of_vars = 0;
+
   if(constants) {
     for(int i = 0; i < constants->size(); i++) {
       constants->at(i)->execute();
@@ -10,9 +12,16 @@ void ASTBlockNode::execute() {
   }
 
   if(variables) {
+    // create new memory segment
+    number_of_vars = variables->size();
+    memory->newMemorySegment(level, number_of_vars);
+
     for(int i = 0; i < variables->size(); i++) {
       variables->at(i)->execute();
     }
+  }
+  else {
+    memory->newMemorySegment(level, number_of_vars);
   }
 
   if(procedures) {
@@ -22,4 +31,7 @@ void ASTBlockNode::execute() {
   }
 
   statement->execute();
+
+  // delete allocated memory
+  memory->deleteMemorySegment(number_of_vars);
 }
