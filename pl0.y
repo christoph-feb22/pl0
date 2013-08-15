@@ -47,7 +47,7 @@
 
 void error(int);
 SymbolTable symtab;
-MemoryManagement * memory;
+MemoryManagement * memory = new MemoryManagement();
 ASTBlockNode * root;
 
 extern int yylex();
