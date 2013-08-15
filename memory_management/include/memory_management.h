@@ -7,11 +7,16 @@
 class MemoryManagement {
 public:
   MemoryManagement();
-  int insertValue(int delta, int number, int value = 0);
+  void newMemorySegment(int delta, int n);
+  void deleteMemorySegment(int);
+  void insertValue(int delta, int number, int value = 0);
   int getValue(int delta, int number);
 
 private:
-  vector<int> * memory;
+  int getSegmentSize(int);
+  int getAddress(int delta, int number);
+  int activation_record_size;
+  vector<int> stack;
 };
 
 #endif
