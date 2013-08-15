@@ -11,12 +11,15 @@ void ASTTermNode::insert(ASTFactorNode * factor) {
 
 int ASTTermNode::eval() {
   int val = 1;
-  for(FactorList::iterator it = factors->begin(); it != factors->end(); ++it) {
-    if((*it)->getOperator() == MULTIPLICATION) {
-      val *= (*it)->eval();
+  for(int i = 0; i < factors->size(); i++) {
+    ASTFactorNode * factor = factors->at(i);
+    if(factor->getOperator() == MULTIPLICATION) {
+      val *= factor->eval();
     }
-    else if((*it)->getOperator() == DIVISION) {
-      val /= (*it)->eval();
+    else if(factor->getOperator() == DIVISION) {
+      val /= factor->eval();
     }
   }
+
+  return val;
 }
