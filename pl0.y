@@ -1,7 +1,7 @@
 %{
 #include <stdio.h>
 #include <cstdlib>
-#include "symbol_table.h"
+#include "symbol_table/include/symbol_table.h"
 #include "global.h"
 #include "memory_management/include/memory_management.h"
 

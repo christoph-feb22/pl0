@@ -1,4 +1,4 @@
-#include "symbol_table_entry.h"
+#include "../include/symbol_table_entry.h"
 
 SymbolTableEntry::SymbolTableEntry(int t, int n)
 {
