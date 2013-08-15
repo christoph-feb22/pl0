@@ -1,5 +1,9 @@
 #include "../include/ast_factor_node.h"
 
+ASTFactorNode::ASTFactorNode() {}
+
+ASTFactorNode::ASTFactorNode(MemoryManagement * m) : ASTExpressionNode(m) {}
+
 void ASTFactorNode::setMultiplicationOperator() {
   factor_operator = MULTIPLICATION;
 }

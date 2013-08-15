@@ -5,6 +5,9 @@
 
 class ASTExpressionNode : public ASTNode {
 public:
+  ASTExpressionNode();
+  ASTExpressionNode(MemoryManagement * m);
+
 	virtual int eval() = 0;
 };
 

@@ -8,6 +8,8 @@
 
 class ASTFactorNode : public ASTExpressionNode {
 public:
+  ASTFactorNode();
+  ASTFactorNode(MemoryManagement * m);
   void setMultiplicationOperator();
   void setDivisionOperator();
   int getOperator();
