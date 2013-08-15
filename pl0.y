@@ -187,7 +187,7 @@ multipliyingoperator:	MUL { return MULTIPLICATION_OPERATOR; }
 						;
 factor:					IDENTIFIER
 						{ int level, number, result ; result = symtab.lookup($1, _VAR, level, number); if(result != IDENTIFIER_FOUND) error(result);
-						$$ = new ASTVariableFactorNode(level, number); }
+						$$ = new ASTVariableFactorNode(level, number, memory); }
 						| NUMBER
 						{ $$ = new ASTConstantFactorNode($1); }
 						| L_BRACE expression R_BRACE

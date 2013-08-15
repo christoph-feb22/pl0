@@ -5,7 +5,7 @@
 
 class ASTVariableFactorNode : public ASTFactorNode {
 public:
-  ASTVariableFactorNode(int delta, int number);
+  ASTVariableFactorNode(int delta, int number, MemoryManagement * m);
   int eval();
 
 private:
