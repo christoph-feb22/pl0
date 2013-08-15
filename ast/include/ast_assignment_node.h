@@ -6,7 +6,7 @@
 
 class ASTAssignmentNode : public ASTPL0StatementNode {
 public:
-  ASTAssignmentNode(int delta, int number, ASTNumericExpressionNode * exp);
+  ASTAssignmentNode(int delta, int number, ASTNumericExpressionNode * exp, MemoryManagement * m);
   void execute();
 
 private:
