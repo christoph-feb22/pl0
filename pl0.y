@@ -7,7 +7,6 @@
 
 #include "ast/include/types.h"
 
-//#include "ast/include/ast_node.h"
 #include "ast/include/ast_block_node.h"
 #include "ast/include/ast_pl0_statement_node.h"
 #include "ast/include/ast_condition_node.h"
