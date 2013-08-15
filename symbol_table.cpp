@@ -58,6 +58,10 @@ int SymbolTable::lookup(string key, int type, int& p_level, int& number) {
 	}
 }
 
+int SymbolTable::getCurrentLevel() {
+	return level;
+}
+
 void SymbolTable::print() {
 	cout << "Start - Print\n";
 	cout << "Current Level: " << level << "\n";

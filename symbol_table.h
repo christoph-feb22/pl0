@@ -23,6 +23,8 @@ public:
 	void insert(string, int);
 	int lookup(string, int, int&, int&);
 
+	int getCurrentLevel();
+
 	void print();
 
 private:
