@@ -5,7 +5,7 @@
   using std::cin;
 #include <stdlib.h>
 
-ASTReadNode::ASTReadNode(int delta, int number) : delta(delta), number(number) {}
+ASTReadNode::ASTReadNode(int delta, int number, MemoryManagement * m) : delta(delta), number(number), ASTPL0StatementNode(m) {}
 
 void ASTReadNode::execute() {
   string tmp;

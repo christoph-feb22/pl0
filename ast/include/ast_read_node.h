@@ -5,7 +5,7 @@
 
 class ASTReadNode : public ASTPL0StatementNode {
 public:
-  ASTReadNode(int delta, int number);
+  ASTReadNode(int delta, int number, MemoryManagement * m);
   void execute();
 
 private:

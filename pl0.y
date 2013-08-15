@@ -131,7 +131,7 @@ statement:				IDENTIFIER ASSIGN expression
 						{ $$ = new ASTWriteNode($2); }
 						| QUE_MARK IDENTIFIER
 						{ int level, number, result ; result = symtab.lookup($2, _VAR, level, number); if(result != IDENTIFIER_FOUND) error(result);
-						$$ = new ASTReadNode(level, number); }
+						$$ = new ASTReadNode(level, number, memory); }
 						| K_BEGIN statementlist K_END
 						{ $$ = new ASTStatementBlockNode($2); }
 						| K_IF condition K_THEN statement
