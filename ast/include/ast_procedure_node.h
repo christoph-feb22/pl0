@@ -6,11 +6,10 @@
 
 class ASTProcedureNode : public ASTStatementNode {
 public:
-  ASTProcedureNode(String ident, ASTBlockNode * block);
+  ASTProcedureNode(ASTBlockNode * block);
   void execute();
 
 private:
-  String identifier;
   ASTBlockNode * block;
 };
 

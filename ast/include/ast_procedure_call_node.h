@@ -2,14 +2,15 @@
 #define AST_PROCEDURE_CALL_NODE_H
 
 #include "ast_pl0_statement_node.h"
+#include "ast_procedure_node.h"
 
 class ASTProcedureCallNode : public ASTPL0StatementNode {
 public:
-  ASTProcedureCallNode(String ident);
+  ASTProcedureCallNode(ASTProcedureNode *);
   void execute();
 
 private:
-  String identifier;
+  ASTProcedureNode * procedure;
 };
 
 #endif

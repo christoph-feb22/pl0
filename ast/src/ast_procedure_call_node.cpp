@@ -1,7 +1,7 @@
 #include "../include/ast_procedure_call_node.h"
 
-ASTProcedureCallNode::ASTProcedureCallNode(String ident) : identifier(ident) {}
+ASTProcedureCallNode::ASTProcedureCallNode(ASTProcedureNode * proc) : procedure(proc) {}
 
 void ASTProcedureCallNode::execute() {
-
+  procedure->execute();
 }
