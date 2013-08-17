@@ -14,6 +14,7 @@
 #include <map>
 #include <string>
 	using namespace std;
+#include "../../ast/include/ast_procedure_node.h"
 
 class SymbolTable {
 public:
@@ -21,6 +22,10 @@ public:
 	void level_up();
 	void level_down();
 	void insert(string, int);
+	//void insert(string, int, ASTProcedureNode *);
+	SymbolTableEntry * getSymbolTableEntry(string, int);
+	ASTProcedureNode * getProcedureNode(string, int);
+	ASTProcedureNode * getProcedureNode(int level, string key);
 	int lookup(string, int, int&, int&);
 
 	int getCurrentLevel();

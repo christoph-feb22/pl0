@@ -34,10 +34,58 @@ void SymbolTable::insert(string key, int type) {
 	}
 }
 
+SymbolTableEntry * SymbolTable::getSymbolTableEntry(string key, int type) {
+	// start in highest level
+	int tmp_level = level + 1;
+	// Search for symbol
+	while(--tmp_level >= 0 && symbol_table[tmp_level].find(key) == symbol_table[tmp_level].end());
+
+	if(tmp_level >= 0) {
+		SymbolTableEntry * symbol = &(symbol_table[tmp_level].find(key)->second);
+		if(symbol->getType() == type) {
+			// lookup successful
+			return symbol;
+		}
+	}
+}
+
+ASTProcedureNode * SymbolTable::getProcedureNode(string key, int type) {
+	// start in highest level
+	int tmp_level = level + 1;
+	// Search for symbol
+	while(--tmp_level >= 0 && symbol_table[tmp_level].find(key) == symbol_table[tmp_level].end());
+
+	if(tmp_level >= 0) {
+		SymbolTableEntry symbol = symbol_table[tmp_level].find(key)->second;
+		if(symbol.getType() == type) {
+			// lookup successful
+			return symbol.getProcedureNode();
+		}
+	}
+}
+
+ASTProcedureNode * SymbolTable::getProcedureNode(int level, string key) {
+	std::cout << "level: " << level << " key: " << key << "\n";
+	std::cout << symbol_table[level].find(key)->second.getProcedureNode() << "\n";
+	std::cout << symbol_table[level].find(key)->second.getProcedureNode() << "\n";
+	return symbol_table[level].find(key)->second.getProcedureNode();
+	// // start in highest level
+	// int tmp_level = level + 1;
+	// // Search for symbol
+	// while(--tmp_level >= 0 && symbol_table[tmp_level].find(key) == symbol_table[tmp_level].end());
+
+	// if(tmp_level >= 0) {
+	// 	SymbolTableEntry symbol = symbol_table[tmp_level].find(key)->second;
+	// 	if(symbol.getType() == type) {
+	// 		// lookup successful
+	// 		return symbol.getProcedureNode();
+	// 	}
+	// }
+}
+
 int SymbolTable::lookup(string key, int type, int& p_level, int& number) {
 	// start in highest level
 	int tmp_level = level + 1;
-	cout << "Lookup for:" << key << " level: " << level << "\n";
 	// Search for symbol
 	while(--tmp_level >= 0 && symbol_table[tmp_level].find(key) == symbol_table[tmp_level].end());
 
@@ -50,6 +98,7 @@ int SymbolTable::lookup(string key, int type, int& p_level, int& number) {
 			// lookup successful
 			p_level = tmp_level;
 			number = symbol.getNumber();
+			cout << "Lookup for:" << key << " level: " << level << " number: " << number << "\n";
 			return IDENTIFIER_FOUND;
 		}
 	}
