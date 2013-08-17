@@ -12,6 +12,8 @@ public:
   void insertValue(int delta, int number, int value = 0);
   int getValue(int delta, int number);
 
+  void print();
+
 private:
   int getSegmentSize(int);
   int getAddress(int delta, int number);
