@@ -2,12 +2,13 @@ VAR a, d;
 
 	PROCEDURE g;
 	VAR c, d;
-		
+
 		PROCEDURE f;
 		VAR b, d;
-		
+
 		BEGIN
 			a := 11;
+			! a;
 			b := 21;
 			c := 31;
 			d := 41;
