@@ -46,6 +46,7 @@
 
 void error(int);
 SymbolTable symtab;
+SymbolTableEntry * entry;
 MemoryManagement * memory = new MemoryManagement();
 ASTBlockNode * root;
 
@@ -90,7 +91,7 @@ program:				block DOT { root = $1; }
 						;
 block:					{ symtab.level_up(); }
 						constdecl vardecl procdecl statement
-						{ $$ = new ASTBlockNode($2, $3, $4, $5, memory, symtab.getCurrentLevel()); symtab.level_down(); }
+						{ $$ = new ASTBlockNode($2, $3, $4, $5, memory); symtab.level_down(); }
 						;
 constdecl:				K_CONST constassignmentlist SEMICOLON
 						{ $$ = $2; }
@@ -110,28 +111,37 @@ vardecl:				K_VAR identlist SEMICOLON
 identlist:				identlist COMMA IDENTIFIER
 						{ symtab.insert($3, _VAR);
 							int level, number; symtab.lookup($3, _VAR, level, number);
-							$$ = $1; $$->push_back(new ASTVarDeclarationNode(memory, level, number)); }
+							$$ = $1; $$->push_back(new ASTVarDeclarationNode(memory, symtab.getCurrentLevel() - level, number)); }
 						| IDENTIFIER
 						{ symtab.insert($1, _VAR);
 							int level, number; symtab.lookup($1, _VAR, level, number);
-							$$ = new VarDeclarationList(); $$->push_back(new ASTVarDeclarationNode(memory, level, number)); }
+							$$ = new VarDeclarationList(); $$->push_back(new ASTVarDeclarationNode(memory, symtab.getCurrentLevel() - level, number)); }
 						;
 procdecl:				procdecl K_PROCEDURE IDENTIFIER { symtab.insert($3, _PROC); } SEMICOLON block SEMICOLON
-						{ $$ = $1; $$->push_back(new ASTProcedureNode($3, $6)); }
+						{ $$ = $1;
+							int level, number; symtab.lookup($3, _PROC, level, number);
+							$6->setLevel(level);
+							ASTProcedureNode * proc = new ASTProcedureNode($6);
+							printf("%s - - - %i\n", $3, proc);
+							entry = symtab.getSymbolTableEntry($3, _PROC);
+							entry->setProcedureNode(proc);
+							entry = NULL;
+							$$->push_back(proc); }
 						|
 						{ $$ = new ProcedureDeclarationList(); }
 						;
 statement:				IDENTIFIER ASSIGN expression
 						{ int level, number, result ; result = symtab.lookup($1, _VAR, level, number); if(result != IDENTIFIER_FOUND) error(result);
-						$$ = new ASTAssignmentNode(level, number, $3, memory); }
+						$$ = new ASTAssignmentNode(symtab.getCurrentLevel() - level, number, $3, memory); }
 						| K_CALL IDENTIFIER
-						{ int level, number, result ; result = symtab.lookup($2, _PROC, level, number); if(result != IDENTIFIER_FOUND) error(result);
-						$$ = new ASTProcedureCallNode($2); }
+						{ int level, number, result; result = symtab.lookup($2, _PROC, level, number); if(result != IDENTIFIER_FOUND) error(result);
+							printf("L:%i N:%i I: %s\n", level, number, $2);
+						$$ = new ASTProcedureCallNode(symtab.getProcedureNode(level, $2)); }
 						| EX_MARK expression
 						{ $$ = new ASTWriteNode($2); }
 						| QUE_MARK IDENTIFIER
 						{ int level, number, result ; result = symtab.lookup($2, _VAR, level, number); if(result != IDENTIFIER_FOUND) error(result);
-						$$ = new ASTReadNode(level, number, memory); }
+						$$ = new ASTReadNode(symtab.getCurrentLevel() - level, number, memory); }
 						| K_BEGIN statementlist K_END
 						{ $$ = new ASTStatementBlockNode($2); }
 						| K_IF condition K_THEN statement
@@ -187,7 +197,7 @@ multipliyingoperator:	MUL { return MULTIPLICATION_OPERATOR; }
 						;
 factor:					IDENTIFIER
 						{ int level, number, result ; result = symtab.lookup($1, _VAR, level, number); if(result != IDENTIFIER_FOUND) error(result);
-						$$ = new ASTVariableFactorNode(level, number, memory); }
+						$$ = new ASTVariableFactorNode(symtab.getCurrentLevel() - level, number, memory); }
 						| NUMBER
 						{ $$ = new ASTConstantFactorNode($1); }
 						| L_BRACE expression R_BRACE
