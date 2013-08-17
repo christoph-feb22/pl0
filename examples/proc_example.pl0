@@ -1,0 +1,22 @@
+VAR a, d;
+
+  PROCEDURE g;
+  VAR c, d;
+
+  BEGIN
+    c := 12;
+    d := 42;
+
+    ! a;
+    ! c;
+    ! d;
+  END;
+
+BEGIN
+  a := 10;
+  d := 40;
+  ! a;
+  CALL g;
+  ! a;
+  ! d;
+END.
