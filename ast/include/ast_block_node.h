@@ -10,7 +10,8 @@
 
 class ASTBlockNode : public ASTStatementNode {
 public:
-	ASTBlockNode(ConstDeclarationList * consts, VarDeclarationList * vars, ProcedureDeclarationList * procs, ASTPL0StatementNode * statement, MemoryManagement * memory, int level);
+	ASTBlockNode(ConstDeclarationList * consts, VarDeclarationList * vars, ProcedureDeclarationList * procs, ASTPL0StatementNode * statement, MemoryManagement * memory, int level = 0);
+  void setLevel(int l);
   void execute();
 
 private:

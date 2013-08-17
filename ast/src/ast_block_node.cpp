@@ -2,6 +2,10 @@
 
 ASTBlockNode::ASTBlockNode(ConstDeclarationList * consts, VarDeclarationList * vars, ProcedureDeclarationList * procs, ASTPL0StatementNode * statement, MemoryManagement * memory, int level) : ASTStatementNode(memory), constants(consts), variables(vars), procedures(procs), statement(statement), level(level) {}
 
+void ASTBlockNode::setLevel(int l) {
+  level = l;
+}
+
 void ASTBlockNode::execute() {
   int number_of_vars = 0;
 
@@ -24,11 +28,8 @@ void ASTBlockNode::execute() {
     memory->newMemorySegment(level, number_of_vars);
   }
 
-  if(procedures) {
-    for(int i = 0; i < procedures->size(); i++) {
-      procedures->at(i)->execute();
-    }
-  }
+  // if(procedures) {
+  // }
 
   statement->execute();
 
