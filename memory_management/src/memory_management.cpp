@@ -10,7 +10,7 @@ MemoryManagement::MemoryManagement() {
 }
 
 void MemoryManagement::newMemorySegment(int delta, int n) {
-  print();
+  //print();
   //std::cout << "Level: " << delta << " n: " << n << "\n";
   //std::cout << "Segmentgroeße: " << getSegmentSize(n) << "\n";
   // allocate memory for new segment
@@ -25,9 +25,9 @@ void MemoryManagement::newMemorySegment(int delta, int n) {
     adr = stack[adr];
   }
   stack[stack[0] + getSegmentSize(n)] = adr; // static link
-
   // update top of stack
   stack[0] = stack[0] + getSegmentSize(n);
+  //std::cout << delta << "\n";
   //print();
 }
 
@@ -52,6 +52,7 @@ void MemoryManagement::insertValue(int delta, int number, int value) {
 int MemoryManagement::getValue(int delta, int number) {
   int adr = getAddress(delta, number);
   //std::cout << "MemoryRead -- Level: " << delta << " Nummer: " << number << " Wert: " << stack[adr] << "\n";
+  //print();
   return stack[adr];
 }
 
