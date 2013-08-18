@@ -4,9 +4,9 @@
 #include "symbol_table/include/symbol_table.h"
 #include "global.h"
 #include "memory_management/include/memory_management.h"
+#include "procedure_table/include/procedure_table.h"
 
 #include "ast/include/types.h"
-
 #include "ast/include/ast_block_node.h"
 #include "ast/include/ast_pl0_statement_node.h"
 #include "ast/include/ast_condition_node.h"
