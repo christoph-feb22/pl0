@@ -10,9 +10,6 @@ MemoryManagement::MemoryManagement() {
 }
 
 void MemoryManagement::newMemorySegment(int delta, int n) {
-  //print();
-  //std::cout << "Level: " << delta << " n: " << n << "\n";
-  //std::cout << "Segmentgroeße: " << getSegmentSize(n) << "\n";
   // allocate memory for new segment
   for(int i = 0; i < getSegmentSize(n); i++) {
     stack.push_back(0);
@@ -27,13 +24,9 @@ void MemoryManagement::newMemorySegment(int delta, int n) {
   stack[stack[0] + getSegmentSize(n)] = adr; // static link
   // update top of stack
   stack[0] = stack[0] + getSegmentSize(n);
-  //std::cout << delta << "\n";
-  //print();
 }
 
 void MemoryManagement::deleteMemorySegment(int n) {
-  //std::cout << "Segment loeschen \n";
-  //print();
   // update top of stack
   stack[0] = stack[stack[0] - 1];
 
@@ -44,15 +37,12 @@ void MemoryManagement::deleteMemorySegment(int n) {
 }
 
 void MemoryManagement::insertValue(int delta, int number, int value) {
-  //std::cout << "MemoryWrite -- Level: " << delta << " Nummer: " << number << "Wert: " << value << "\n";
   int adr = getAddress(delta, number);
   stack[adr] = value;
 }
 
 int MemoryManagement::getValue(int delta, int number) {
   int adr = getAddress(delta, number);
-  //std::cout << "MemoryRead -- Level: " << delta << " Nummer: " << number << " Wert: " << stack[adr] << "\n";
-  //print();
   return stack[adr];
 }
 

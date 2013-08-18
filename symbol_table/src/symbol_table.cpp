@@ -1,6 +1,6 @@
 #include "../include/symbol_table.h"
 #include <iostream>
-	using namespace std;
+	using std::cout;
 
 SymbolTable::SymbolTable() {
 	level = -1;
@@ -13,11 +13,9 @@ void SymbolTable::level_up() {
 	if(symbol_table.size() <= level) {
 		symbol_table.push_back(map<string, SymbolTableEntry>());
 	}
-	//print();
 }
 
 void SymbolTable::level_down() {
-	//print();
 	symbol_table[level].clear();
 	level--;
 }
@@ -65,21 +63,7 @@ ASTProcedureNode * SymbolTable::getProcedureNode(string key, int type) {
 }
 
 ASTProcedureNode * SymbolTable::getProcedureNode(int level, string key) {
-	std::cout << "level: " << level << " key: " << key << "\n";
-	std::cout << symbol_table[level].find(key)->second.getProcedureNode() << "\n";
 	return symbol_table[level].find(key)->second.getProcedureNode();
-	// // start in highest level
-	// int tmp_level = level + 1;
-	// // Search for symbol
-	// while(--tmp_level >= 0 && symbol_table[tmp_level].find(key) == symbol_table[tmp_level].end());
-
-	// if(tmp_level >= 0) {
-	// 	SymbolTableEntry symbol = symbol_table[tmp_level].find(key)->second;
-	// 	if(symbol.getType() == type) {
-	// 		// lookup successful
-	// 		return symbol.getProcedureNode();
-	// 	}
-	// }
 }
 
 int SymbolTable::lookup(string key, int type, int& p_level, int& number) {
@@ -97,7 +81,6 @@ int SymbolTable::lookup(string key, int type, int& p_level, int& number) {
 			// lookup successful
 			p_level = tmp_level;
 			number = symbol.getNumber();
-			cout << "Lookup for:" << key << " level: " << level << " number: " << number << "\n";
 			return IDENTIFIER_FOUND;
 		}
 	}
@@ -121,21 +104,5 @@ void SymbolTable::print() {
 			cout << "Typ: " << iter->second.getType() << "\n";
 		}
 	}
-
-/*
-	for(int i = 0; i < symbol_table.size(); i++) {
-		cout << max_number - i << "\t";
-		if(symbol_table[i].size() >= max_number - i)	{
-			for(map_iter iter = symbol_table[i].rbegin(); iter != symbol_table[i].rend(); iter++) {
-				//cout << "Ebene: " << i << "\t";
-				//cout << "Nummer: " << iter->second.getNumber() << "\t";
-				cout << "Bez.: " << iter->first << " - ";
-				cout << "Typ: " << iter->second.getType() << "\n";
-			}
-		}
-	}
-	cout << "Level\t";
-	cout << "\n";
-*/
 	cout << "End - Print\n";
 }

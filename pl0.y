@@ -1,6 +1,4 @@
 %{
-#include <iostream>
-#include <stdio.h>
 #include <cstdlib>
 #include "symbol_table/include/symbol_table.h"
 #include "global.h"
@@ -93,8 +91,7 @@ int yyerror(char * s) { printf(" %s\n", s); exit(1); }
 %start program
 
 %%
-program:				block {std::cout << "----------";} DOT { root = $1;
-						std::cout << "---- root ---- " << $1 << "\n"; }
+program:				block DOT { root = $1; }
 						;
 block:					{ symtab.level_up(); }
 						constdecl vardecl procdecl statement
@@ -193,12 +190,12 @@ addingoperator:			PLUS { $$ = ADDITION_OPERATOR; }
 						| MINUS { $$ = SUBTRACTION_OPERATOR; }
 						;
 term:					term multipliyingoperator factor
-						{ std::cout << "neuer faktor --" << "\n"; $$ = $1;
+						{ $$ = $1;
 						if($2 == MULTIPLICATION_OPERATOR) $3->setMultiplicationOperator();
 						else if($2 == DIVISION_OPERATOR) $3->setDivisionOperator();
 						$$->insert($3); }
 						| factor
-						{ std::cout << "neuer faktor" << "\n";$1->setMultiplicationOperator();
+						{ $1->setMultiplicationOperator();
 						$$ = new ASTTermNode($1); }
 						;
 multipliyingoperator:	MUL { $$ = MULTIPLICATION_OPERATOR; }
