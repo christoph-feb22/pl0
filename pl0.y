@@ -48,6 +48,7 @@ void error(int);
 SymbolTable symtab;
 SymbolTableEntry * entry;
 MemoryManagement * memory = new MemoryManagement();
+ProcedureTable proc_table;
 ASTBlockNode * root;
 
 extern int yylex();
@@ -120,23 +121,22 @@ identlist:				identlist COMMA IDENTIFIER
 procdecl:				procdecl K_PROCEDURE IDENTIFIER { symtab.insert($3, _PROC); } SEMICOLON block SEMICOLON
 						{ $$ = $1;
 							int level, number; symtab.lookup($3, _PROC, level, number);
-							$6->setLevel(level);
+							//$6->setLevel(level);
 							ASTProcedureNode * proc = new ASTProcedureNode($6);
-							printf("%s - - - %i\n", $3, proc);
-							entry = symtab.getSymbolTableEntry($3, _PROC);
-							entry->setProcedureNode(proc);
-							entry = NULL;
+							proc_table.insertProcedure(level, number, proc);
 							$$->push_back(proc); }
 						|
 						{ $$ = new ProcedureDeclarationList(); }
 						;
 statement:				IDENTIFIER ASSIGN expression
 						{ int level, number, result ; result = symtab.lookup($1, _VAR, level, number); if(result != IDENTIFIER_FOUND) error(result);
+						printf("Assign: --- L:%i N:%i I: %s\n", symtab.getCurrentLevel() - level, number, $1);
 						$$ = new ASTAssignmentNode(symtab.getCurrentLevel() - level, number, $3, memory); }
 						| K_CALL IDENTIFIER
 						{ int level, number, result; result = symtab.lookup($2, _PROC, level, number); if(result != IDENTIFIER_FOUND) error(result);
-							printf("L:%i N:%i I: %s\n", level, number, $2);
-						$$ = new ASTProcedureCallNode(symtab.getProcedureNode(level, $2)); }
+						ASTProcedureCallNode * proc_call = new ASTProcedureCallNode(symtab.getCurrentLevel() - level);
+						$$ = proc_call;
+						proc_table.insertProcedureCall(level, number, proc_call); }
 						| EX_MARK expression
 						{ $$ = new ASTWriteNode($2); }
 						| QUE_MARK IDENTIFIER
@@ -159,12 +159,12 @@ statementlist:			statementlist SEMICOLON statement
 condition:				K_ODD expression
 						{ $$ = new ASTOddConditionNode($2); }
 						| expression relation expression
-						{ if($2 == EQ) $$ = new ASTEqualCompareConditionNode($1, $3);
-							else if($2 == HASH) $$ = new ASTNotEqualCompareConditionNode($1, $3);
-							else if($2 == LT)  $$ = new ASTLessThanCompareConditionNode($1, $3);
-							else if($2 == GT) $$ = new ASTGreaterThanCompareConditionNode($1, $3);
-							else if($2 == BEQ) $$ = new ASTLessThanOrEqualCompareConditionNode($1, $3);
-							else if($2 == SEQ) $$ = new ASTGreaterThanOrEqualCompareConditionNode($1, $3); }
+						{ if($2 == EQUAL) $$ = new ASTEqualCompareConditionNode($1, $3);
+							else if($2 == NOT_EQUAL) $$ = new ASTNotEqualCompareConditionNode($1, $3);
+							else if($2 == LESS_THAN)  $$ = new ASTLessThanCompareConditionNode($1, $3);
+							else if($2 == GREATER_THAN) $$ = new ASTGreaterThanCompareConditionNode($1, $3);
+							else if($2 == LESS_THAN_OR_EQUAL) $$ = new ASTLessThanOrEqualCompareConditionNode($1, $3);
+							else if($2 == GREATER_THAN_OR_EQUAL) $$ = new ASTGreaterThanOrEqualCompareConditionNode($1, $3); }
 						;
 relation:				EQ { $$ = EQUAL; }
 						| HASH { $$ = NOT_EQUAL; }
@@ -224,6 +224,8 @@ void error(int error_type) {
 
 int main() {
 	yyparse();
+	proc_table.print();
+	proc_table.setProcedureCalls();
 	root->execute();
 }
 

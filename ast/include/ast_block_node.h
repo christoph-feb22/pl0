@@ -13,6 +13,7 @@ public:
 	ASTBlockNode(ConstDeclarationList * consts, VarDeclarationList * vars, ProcedureDeclarationList * procs, ASTPL0StatementNode * statement, MemoryManagement * memory, int level = 0);
   void setLevel(int l);
   void execute();
+  void execute(int call_level);
 
 private:
 	ConstDeclarationList * constants;

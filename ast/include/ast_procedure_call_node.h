@@ -6,12 +6,15 @@
 
 class ASTProcedureCallNode : public ASTPL0StatementNode {
 public:
+  ASTProcedureCallNode();
+  ASTProcedureCallNode(int level);
   ASTProcedureCallNode(ASTProcedureNode *);
   void setProcedure(ASTProcedureNode *);
   void execute();
 
 private:
   ASTProcedureNode * procedure;
+  int level;
 };
 
 #endif

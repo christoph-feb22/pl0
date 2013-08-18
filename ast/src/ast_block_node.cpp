@@ -7,6 +7,10 @@ void ASTBlockNode::setLevel(int l) {
 }
 
 void ASTBlockNode::execute() {
+  execute(level);
+}
+
+void ASTBlockNode::execute(int call_level) {
   int number_of_vars = 0;
 
   if(constants) {
@@ -18,14 +22,14 @@ void ASTBlockNode::execute() {
   if(variables) {
     // create new memory segment
     number_of_vars = variables->size();
-    memory->newMemorySegment(level, number_of_vars);
+    memory->newMemorySegment(call_level, number_of_vars);
 
     for(int i = 0; i < variables->size(); i++) {
       variables->at(i)->execute();
     }
   }
   else {
-    memory->newMemorySegment(level, number_of_vars);
+    memory->newMemorySegment(call_level, number_of_vars);
   }
 
   // if(procedures) {

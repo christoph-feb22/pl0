@@ -2,6 +2,8 @@
 
 ASTProcedureNode::ASTProcedureNode(ASTBlockNode * block) : block(block) {}
 
-void ASTProcedureNode::execute() {
-  block->execute();
+void ASTProcedureNode::execute() {}
+
+void ASTProcedureNode::execute(int call_level) {
+  block->execute(call_level);
 }

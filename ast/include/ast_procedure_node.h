@@ -8,6 +8,7 @@ class ASTProcedureNode : public ASTStatementNode {
 public:
   ASTProcedureNode(ASTBlockNode * block);
   void execute();
+  void execute(int level);
 
 private:
   ASTBlockNode * block;
