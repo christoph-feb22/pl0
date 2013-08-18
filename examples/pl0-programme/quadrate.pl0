@@ -3,16 +3,16 @@
 VAR x, squ;
 PROCEDURE square;
 BEGIN
-   squ := x * x
+   squ := x * x;
 END;
 BEGIN
    x := 1;
    WHILE x <= 10 DO
    BEGIN
       CALL square;
-      !x; !squ;
-      x := x + 1
+      !x;
+      !squ;
+      x := x + 1;
    END
-END
-.
+END.
 (* Das wars*! *)
