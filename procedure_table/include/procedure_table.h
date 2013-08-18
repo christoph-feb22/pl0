@@ -16,6 +16,8 @@ public:
 
   void setProcedureCalls();
 
+  void print();
+
 private:
   map< int, map<int, ASTProcedureNode *> > procedure_table;
   forward_list<ProcedureCallListElement *> procedure_calls_list;

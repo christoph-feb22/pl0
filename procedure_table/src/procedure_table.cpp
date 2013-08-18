@@ -1,4 +1,5 @@
 #include "../include/procedure_table.h"
+#include <iostream>
 
 void ProcedureTable::insertProcedure(int level, int number, ASTProcedureNode * proc) {
   map< int, map<int, ASTProcedureNode *> >::iterator proc_table_it;
@@ -27,12 +28,23 @@ void ProcedureTable::insertProcedureCall(int level, int number, ASTProcedureCall
 }
 
 void ProcedureTable::setProcedureCalls() {
-  while(!procedure_calls_list.empty()) {
-    ProcedureCallListElement * element = procedure_calls_list.front();
+  // while(!procedure_calls_list.empty()) {
+  //   ProcedureCallListElement * element = procedure_calls_list.front();
 
-    ASTProcedureNode * procedure = procedure_table[element->getLevel()][element->getNumber()];
-    element->setProcedure(procedure);
+  //   ASTProcedureNode * procedure = procedure_table[element->getLevel()][element->getNumber()];
+  //   element->setProcedure(procedure);
 
-    procedure_calls_list.pop_front();
+  //   procedure_calls_list.pop_front();
+  // }
+  for ( ProcedureCallListElement * elem : procedure_calls_list ) {
+    ASTProcedureNode * procedure = procedure_table[elem->getLevel()][elem->getNumber()];
+    elem->setProcedure(procedure);
+  }
+}
+
+void ProcedureTable::print() {
+  for ( ProcedureCallListElement * elem : procedure_calls_list ) {
+    std::cout << "L:" << elem->getLevel() << " N: " << elem->getNumber() << "\n";
+    std::cout << procedure_table[elem->getLevel()][elem->getNumber()] << "\n";
   }
 }
