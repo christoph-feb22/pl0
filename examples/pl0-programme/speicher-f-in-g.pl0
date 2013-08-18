@@ -6,39 +6,32 @@ VAR a, d;
 	
 		PROCEDURE f;
 		VAR b, d;
-		
-		
+
 		BEGIN
-                      a := 11;
-                      b := 21;
-                      c := 31;
-                      d := 41;
-                      DEBUG;       (* Hauptspeicher *)
-                      CALL g;
+      a := 11;
+      b := 21;
+      c := 31;
+      d := 41;
+      CALL g;
 		END;
 
 	
 	BEGIN
-                c := 32;
-                d := 42;
+    c := 32;
+    d := 42;
 		IF a = 10 THEN
-                BEGIN
-                    DEBUG;         (* Hauptspeicher *)
-                    CALL f;
-                END;
-                IF a = 11 THEN
-                BEGIN
-                    a := 12;
-                    DEBUG;         (* Hauptspeicher *)
-                END;
-
-                
+    BEGIN
+        CALL f;
+    END;
+    IF a = 11 THEN
+    BEGIN
+        a := 12;
+    END;
 	END;
 	
 BEGIN
 	a := 10;
 	d := 40;
-        DEBUG;                     (* Hauptspeicher *)
 	CALL g;
 	! a;
 	! d;

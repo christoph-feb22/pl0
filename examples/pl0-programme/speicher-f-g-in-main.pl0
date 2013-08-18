@@ -4,9 +4,8 @@ VAR a, d;
 	VAR c, d;
 	BEGIN
 		a := 12;
-                c := 32;
-                d := 42;
-                DEBUG;    (* Hauptspeicher *)
+    c := 32;
+    d := 42;
 		! a;
 		! c;
 		! d;
@@ -15,20 +14,18 @@ VAR a, d;
 	PROCEDURE f;
 	VAR b, d;
 	BEGIN
-                a := 11;
-                b := 21;
+    a := 11;
+    b := 21;
 		d := 41;
-                DEBUG;    (* Hauptspeicher *)
 		CALL g;
-                ! a;
-                ! b;
-                ! d;
+    ! a;
+    ! b;
+    ! d;
 	END;
 	
 BEGIN
 	a := 10;
 	d := 40;
-        DEBUG;            (* Hauptspeicher *)
 	CALL f;
 	! a;
 	! d;
