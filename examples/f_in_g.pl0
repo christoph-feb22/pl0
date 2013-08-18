@@ -23,7 +23,8 @@ VAR a, d;
 		BEGIN
 			CALL f;
 		END;
-
+		! a;
+		! c;
 		IF a = 11 THEN
 		BEGIN
 			a := 12;
