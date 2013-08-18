@@ -1,0 +1,46 @@
+(* f lokal zu g ruft g !!!! Indirekte Rekursion!!! *)
+VAR a, d;
+
+	PROCEDURE g;
+	VAR c, d;
+	
+		PROCEDURE f;
+		VAR b, d;
+		
+		
+		BEGIN
+                      a := 11;
+                      b := 21;
+                      c := 31;
+                      d := 41;
+                      DEBUG;       (* Hauptspeicher *)
+                      CALL g;
+		END;
+
+	
+	BEGIN
+                c := 32;
+                d := 42;
+		IF a = 10 THEN
+                BEGIN
+                    DEBUG;         (* Hauptspeicher *)
+                    CALL f;
+                END;
+                IF a = 11 THEN
+                BEGIN
+                    a := 12;
+                    DEBUG;         (* Hauptspeicher *)
+                END;
+
+                
+	END;
+	
+BEGIN
+	a := 10;
+	d := 40;
+        DEBUG;                     (* Hauptspeicher *)
+	CALL g;
+	! a;
+	! d;
+END.
+	
