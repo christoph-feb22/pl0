@@ -45,6 +45,7 @@ extern "C" int yywrap() { return 1; }
 "("						          { debug_print("L_BRACE"); return L_BRACE; }
 ")"						          { debug_print("R_BRACE"); return R_BRACE; }
 "."						          { debug_print("DOT"); return DOT; }
+\(\*.*\*\)              { debug_print("Comment"); }
 [a-zA-Z_]+[0-9a-zA-Z_]* { debug_print("IDENTIFIER"); strcpy(yylval.string, yytext); return IDENTIFIER; }
 [0-9]+(.[0-9]+)?		    { debug_print("NUMBER"); yylval.number = atoi(yytext); return NUMBER; }
 [ \t]+					        { ; }
@@ -56,15 +57,3 @@ void debug_print(char * s) {
 	if(DEBUG)
 		printf("%s, Z.:%i \n", s, line);
 }
-
-/*
-int yywrap() {
-	return 1;
-}
-*/
-/*
-int main() {
-	while(yylex());
-}
-*/
-
