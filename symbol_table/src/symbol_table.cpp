@@ -67,7 +67,6 @@ ASTProcedureNode * SymbolTable::getProcedureNode(string key, int type) {
 ASTProcedureNode * SymbolTable::getProcedureNode(int level, string key) {
 	std::cout << "level: " << level << " key: " << key << "\n";
 	std::cout << symbol_table[level].find(key)->second.getProcedureNode() << "\n";
-	std::cout << symbol_table[level].find(key)->second.getProcedureNode() << "\n";
 	return symbol_table[level].find(key)->second.getProcedureNode();
 	// // start in highest level
 	// int tmp_level = level + 1;
