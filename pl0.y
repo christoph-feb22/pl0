@@ -91,6 +91,7 @@ int yyerror(char * s) { printf(" %s\n", s); exit(1); }
 %type<number> relation multipliyingoperator addingoperator
 
 %start program
+%expect 0
 
 %%
 program:				block {std::cout << "----------";} DOT { root = $1;
@@ -187,13 +188,13 @@ expression:				expression addingoperator term
 						else if($1 == SUBTRACTION_OPERATOR) $2->setSubtractionOperator();
 						$$ = new ASTNumericExpressionNode($2); }
 						| term
-						{ $$ = new ASTNumericExpressionNode($1); }
+						{  $$ = new ASTNumericExpressionNode($1); }
 						;
 addingoperator:			PLUS { $$ = ADDITION_OPERATOR; }
 						| MINUS { $$ = SUBTRACTION_OPERATOR; }
 						;
 term:					term multipliyingoperator factor
-						{ std::cout << "neuer faktor" << "\n"; $$ = $1;
+						{ std::cout << "neuer faktor --" << "\n"; $$ = $1;
 						if($2 == MULTIPLICATION_OPERATOR) $3->setMultiplicationOperator();
 						else if($2 == DIVISION_OPERATOR) $3->setDivisionOperator();
 						$$->insert($3); }
@@ -205,7 +206,8 @@ multipliyingoperator:	MUL { return MULTIPLICATION_OPERATOR; }
 						| DIV { return DIVISION_OPERATOR; }
 						;
 factor:					IDENTIFIER
-						{ int level, number, result ; result = symtab.lookup($1, _VAR, level, number); if(result != IDENTIFIER_FOUND) error(result);
+						{ int level, number, result; result = symtab.lookup($1, _VAR, level, number); if(result != IDENTIFIER_FOUND) {
+						result = symtab.lookup($1, _CONST, level, number); if(result != IDENTIFIER_FOUND) error(result); }
 						$$ = new ASTVariableFactorNode(symtab.getCurrentLevel() - level, number, memory); }
 						| NUMBER
 						{ $$ = new ASTConstantFactorNode($1); }
