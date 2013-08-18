@@ -3,6 +3,8 @@
 ASTTermNode::ASTTermNode(ASTFactorNode * factor) {
   factors = new FactorList;
   factors->push_back(factor);
+
+  math_operator = ADD_OP;
 }
 
 void ASTTermNode::insert(ASTFactorNode * factor) {
@@ -22,4 +24,16 @@ int ASTTermNode::eval() {
   }
 
   return val;
+}
+
+void ASTTermNode::setAdditionOperator() {
+  math_operator = ADD_OP;
+}
+
+void ASTTermNode::setSubtractionOperator() {
+  math_operator = SUB_OP;
+}
+
+int ASTTermNode::getOperator() {
+  return math_operator;
 }
