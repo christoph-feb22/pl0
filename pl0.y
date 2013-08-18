@@ -91,7 +91,6 @@ int yyerror(char * s) { printf(" %s\n", s); exit(1); }
 %type<number> relation multipliyingoperator addingoperator
 
 %start program
-%expect 0
 
 %%
 program:				block {std::cout << "----------";} DOT { root = $1;
@@ -202,8 +201,8 @@ term:					term multipliyingoperator factor
 						{ std::cout << "neuer faktor" << "\n";$1->setMultiplicationOperator();
 						$$ = new ASTTermNode($1); }
 						;
-multipliyingoperator:	MUL { return MULTIPLICATION_OPERATOR; }
-						| DIV { return DIVISION_OPERATOR; }
+multipliyingoperator:	MUL { $$ = MULTIPLICATION_OPERATOR; }
+						| DIV { $$ = DIVISION_OPERATOR; }
 						;
 factor:					IDENTIFIER
 						{ int level, number, result; result = symtab.lookup($1, _VAR, level, number); if(result != IDENTIFIER_FOUND) {
