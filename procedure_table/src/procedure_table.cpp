@@ -1,19 +1,38 @@
 #include "../include/procedure_table.h"
 
 void ProcedureTable::insertProcedure(int level, int number, ASTProcedureNode * proc) {
-  vector<ProcedureNode *> procs;
+  map< int, map<int, ASTProcedureNode *> >::iterator proc_table_it;
+  proc_table_it = procedure_table.find(level);
 
-  try {
-    procs = procedure_table.at(level);
+  if(proc_table_it == procedure_table.end()) {
+    // insert the level and the procedure (nothing found)
+    map<int, ASTProcedureNode *> level_table;// = new map<int, ASTProcedureNode *>();
+    level_table[number] = proc;
+    procedure_table[level] = level_table;
+    //procedure_table.insert( std::pair<int, map<int, ProcedureNode *> *>(level, new std::pair<int, ProcedureNode*>(number, proc)) );
   }
-  catch(exception& e) {
-      vector<ProcedureNode *>::iterator it;
-    // level does not exist yet
-
+  else {
+    map<int, ASTProcedureNode *>::iterator level_table_it = procedure_table[level].find(number);
+    if(level_table_it == procedure_table[level].end()) {
+      // insert only the procedure (level already inserted)
+      procedure_table[level][number] = proc;
+      //level_table.insert( std::pair<int, ProcedureNode *>(number, proc) );
+    }
+    // otherwise already inserted, do nothing
   }
-
 }
 
-void ProcedureTable::insertProcedureCall(int level, int number) {}
+void ProcedureTable::insertProcedureCall(int level, int number, ASTProcedureCallNode * proc_call) {
+  procedure_calls_list.push_front(new ProcedureCallListElement(level, number, proc_call));
+}
 
-void ProcedureTable::setProcedureCalls() {}
+void ProcedureTable::setProcedureCalls() {
+  while(!procedure_calls_list.empty()) {
+    ProcedureCallListElement * element = procedure_calls_list.front();
+
+    ASTProcedureNode * procedure = procedure_table[element->getLevel()][element->getNumber()];
+    element->setProcedure(procedure);
+
+    procedure_calls_list.pop_front();
+  }
+}
