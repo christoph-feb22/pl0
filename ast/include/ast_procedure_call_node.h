@@ -7,6 +7,7 @@
 class ASTProcedureCallNode : public ASTPL0StatementNode {
 public:
   ASTProcedureCallNode(ASTProcedureNode *);
+  void setProcedure(ASTProcedureNode *);
   void execute();
 
 private:

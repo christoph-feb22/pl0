@@ -2,6 +2,10 @@
 
 ASTProcedureCallNode::ASTProcedureCallNode(ASTProcedureNode * proc) : procedure(proc) {}
 
+void ASTProcedureCallNode::setProcedure(ASTProcedureNode * proc) {
+  procedure = proc;
+}
+
 void ASTProcedureCallNode::execute() {
   procedure->execute();
 }
