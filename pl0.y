@@ -1,4 +1,5 @@
 %{
+#include <iostream>
 #include <stdio.h>
 #include <cstdlib>
 #include "symbol_table/include/symbol_table.h"
@@ -43,6 +44,8 @@
 #define GREATER_THAN_OR_EQUAL 6
 #define MULTIPLICATION_OPERATOR 7
 #define DIVISION_OPERATOR 8
+#define ADDITION_OPERATOR 9
+#define SUBTRACTION_OPERATOR 10
 
 void error(int);
 SymbolTable symtab;
@@ -85,10 +88,13 @@ int yyerror(char * s) { printf(" %s\n", s); exit(1); }
 %type<expression> expression
 %type<term> term
 %type<factor> factor
-%type<number> relation multipliyingoperator
+%type<number> relation multipliyingoperator addingoperator
+
+%start program
 
 %%
-program:				block DOT { root = $1; }
+program:				block {std::cout << "----------";} DOT { root = $1;
+						std::cout << "---- root ---- " << $1 << "\n"; }
 						;
 block:					{ symtab.level_up(); }
 						constdecl vardecl procdecl statement
@@ -130,7 +136,6 @@ procdecl:				procdecl K_PROCEDURE IDENTIFIER { symtab.insert($3, _PROC); } SEMIC
 						;
 statement:				IDENTIFIER ASSIGN expression
 						{ int level, number, result ; result = symtab.lookup($1, _VAR, level, number); if(result != IDENTIFIER_FOUND) error(result);
-						printf("Assign: --- L:%i N:%i I: %s\n", symtab.getCurrentLevel() - level, number, $1);
 						$$ = new ASTAssignmentNode(symtab.getCurrentLevel() - level, number, $3, memory); }
 						| K_CALL IDENTIFIER
 						{ int level, number, result; result = symtab.lookup($2, _PROC, level, number); if(result != IDENTIFIER_FOUND) error(result);
@@ -174,23 +179,27 @@ relation:				EQ { $$ = EQUAL; }
 						| SEQ { $$ = LESS_THAN_OR_EQUAL; }
 						;
 expression:				expression addingoperator term
-						{ $$ = $1; $$->insert($3); }
+						{ if($2 == ADDITION_OPERATOR) $3->setAdditionOperator();
+						else if($2 == SUBTRACTION_OPERATOR) $3->setSubtractionOperator();
+						$$ = $1; $$->insert($3); }
 						| addingoperator term
-						{ $$ = new ASTNumericExpressionNode($2); }
+						{ if($1 == ADDITION_OPERATOR) $2->setAdditionOperator();
+						else if($1 == SUBTRACTION_OPERATOR) $2->setSubtractionOperator();
+						$$ = new ASTNumericExpressionNode($2); }
 						| term
 						{ $$ = new ASTNumericExpressionNode($1); }
 						;
-addingoperator:			PLUS
-						| MINUS
+addingoperator:			PLUS { $$ = ADDITION_OPERATOR; }
+						| MINUS { $$ = SUBTRACTION_OPERATOR; }
 						;
 term:					term multipliyingoperator factor
-						{ $$ = $1;
-						if($2 == MULTIPLICATION) $3->setMultiplicationOperator();
-						else if($2 == DIVISION) $3->setDivisionOperator();
+						{ std::cout << "neuer faktor" << "\n"; $$ = $1;
+						if($2 == MULTIPLICATION_OPERATOR) $3->setMultiplicationOperator();
+						else if($2 == DIVISION_OPERATOR) $3->setDivisionOperator();
 						$$->insert($3); }
 						| factor
-						{ $1->setMultiplicationOperator();
-							$$ = new ASTTermNode($1); }
+						{ std::cout << "neuer faktor" << "\n";$1->setMultiplicationOperator();
+						$$ = new ASTTermNode($1); }
 						;
 multipliyingoperator:	MUL { return MULTIPLICATION_OPERATOR; }
 						| DIV { return DIVISION_OPERATOR; }
@@ -224,6 +233,7 @@ void error(int error_type) {
 
 int main() {
 	yyparse();
+	freopen("/dev/tty", "rw", stdin);
 	proc_table.print();
 	proc_table.setProcedureCalls();
 	root->execute();
