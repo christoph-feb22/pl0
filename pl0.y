@@ -124,7 +124,6 @@ identlist:				identlist COMMA IDENTIFIER
 procdecl:				procdecl K_PROCEDURE IDENTIFIER { symtab.insert($3, _PROC); } SEMICOLON block SEMICOLON
 						{ $$ = $1;
 							int level, number; symtab.lookup($3, _PROC, level, number);
-							//$6->setLevel(level);
 							ASTProcedureNode * proc = new ASTProcedureNode($6);
 							proc_table.insertProcedure(level, number, proc);
 							$$->push_back(proc); }
@@ -232,7 +231,6 @@ void error(int error_type) {
 int main() {
 	yyparse();
 	freopen("/dev/tty", "rw", stdin);
-	proc_table.print();
 	proc_table.setProcedureCalls();
 	root->execute();
 }
