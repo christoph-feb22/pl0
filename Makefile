@@ -5,4 +5,4 @@ lex: yacc pl0.l
 	lex -o lex.cpp pl0.l
 
 yacc: pl0.y
-	yacc -d -o yacc.cpp pl0.y
+	yacc -v -d -o yacc.cpp pl0.y
