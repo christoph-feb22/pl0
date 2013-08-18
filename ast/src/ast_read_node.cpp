@@ -3,13 +3,13 @@
   using std::string;
 #include <iostream>
   using std::cin;
-#include <stdlib.h>
 
 ASTReadNode::ASTReadNode(int delta, int number, MemoryManagement * m) : delta(delta), number(number), ASTPL0StatementNode(m) {}
 
 void ASTReadNode::execute() {
-  string tmp;
-  cin >> tmp;
+  std::cout << "Eingabe: ";
+  int x;
+  cin >> x;
 
-  memory->insertValue(delta, number, atoi(tmp.c_str()));
+  memory->insertValue(delta, number, x);
 }
